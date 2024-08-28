@@ -17,11 +17,12 @@ namespace Forum.Controllers
 				Username = userCreateBody.Username,
 				Email = userCreateBody.Email,
 				Password = userCreateBody.Password,
-				Description = "We don't know much about them, but we are sure they are cool.",
+				Bio = "We don't know much about them, but we are sure they are cool.",
 				Title = "Member",
 				Role = "Member",
 				CreatedAt = DateTime.Now
 			};
+			//TODO properly (add to db, check the fields and create a basic user etc)
 			return StatusCode(StatusCodes.Status201Created, newUser);
 		}
 	}
