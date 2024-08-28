@@ -1,4 +1,7 @@
 
+using Forum.Data.DbContexts;
+using Microsoft.EntityFrameworkCore;
+
 namespace Forum
 {
 	public class Program
@@ -13,6 +16,8 @@ namespace Forum
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
+
+			builder.Services.AddDbContext<ForumDbContext>(options => options.UseSqlServer(builder.Configuration["ForumConnectionString"]));
 
 			var app = builder.Build();
 
