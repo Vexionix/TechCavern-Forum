@@ -19,7 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Forum.Core\Forum.Core.csproj" />
     <ProjectReference Include="..\Forum.Data\Forum.Data.csproj" />
-    <ProjectReference Include="..\Forum\Forum.csproj" />
+    <ProjectReference Include="..\Forum\Forum.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

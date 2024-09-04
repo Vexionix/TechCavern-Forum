@@ -6,6 +6,16 @@ namespace Forum.Core.Entities
 {
 	public class User
 	{
+		public User(string username, string email, string password, string selectedTitle, string bio, string location)
+		{
+			Username = username;
+			Email = email;
+			Password = password;
+			SelectedTitle = selectedTitle;
+			Bio = bio;
+			Location = location;
+		}
+
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }

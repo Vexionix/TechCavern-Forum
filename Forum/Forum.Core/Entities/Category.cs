@@ -5,6 +5,11 @@ namespace Forum.Core.Entities
 {
 	public class Category
 	{
+		public Category(string name)
+		{
+			Name = name;
+		}
+
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum", "Forum\Forum.csproj", "{2BF9907B-2F06-4A47-A638-295D25A399AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.API", "Forum\Forum.API.csproj", "{2BF9907B-2F06-4A47-A638-295D25A399AE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6D032361-1F3B-4F4E-90FB-B331967F41D2} = {6D032361-1F3B-4F4E-90FB-B331967F41D2}
 	EndProjectSection

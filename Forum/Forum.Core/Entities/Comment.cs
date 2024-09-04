@@ -5,6 +5,13 @@ namespace Forum.Core.Entities
 {
 	public class Comment
 	{
+		public Comment(string content, int userId, int postId)
+		{
+			Content = content;
+			UserId = userId;
+			PostId = postId;
+		}
+
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
