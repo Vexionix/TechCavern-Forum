@@ -5,6 +5,11 @@ namespace Forum.Core.Entities
 {
 	public class Title
 	{
+		public Title(string titleName)
+		{
+			TitleName = titleName;
+		}
+
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }

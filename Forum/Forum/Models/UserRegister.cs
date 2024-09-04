@@ -1,6 +1,6 @@
 ﻿namespace Forum.Models
 {
-	public class UserCreate
+	public class UserRegister
 	{
 		public string Username { get; set; }
 		public string Email { get; set; }

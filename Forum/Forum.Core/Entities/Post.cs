@@ -5,6 +5,14 @@ namespace Forum.Core.Entities
 {
 	public class Post
 	{
+		public Post(string title, string content, int userId, int subcategoryId)
+		{
+			Title = title;
+			Content = content;
+			UserId = userId;
+			SubcategoryId = subcategoryId;
+		}
+
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
