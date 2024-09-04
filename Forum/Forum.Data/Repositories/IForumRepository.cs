@@ -3,7 +3,7 @@ using Forum.Data.Repositories;
 
 namespace Forum.Data.Repositories
 {
-	internal interface IForumRepository
+	public interface IForumRepository
 	{
 		User GetUserById(int id);
 		IEnumerable<User> GetAllUsers();
@@ -21,18 +21,19 @@ namespace Forum.Data.Repositories
 
 
 		IEnumerable<Post> GetPostsForSubcategory(int subcategoryId);
+		Post GetPostById(int id);
 		Post GetLatestPostForSubcategory(int subcategoryId);
 		void AddPost(Post post);
-		void UpdatePost(Post post);
-		void DeletePost(Post post);
-		void RemovePost(Post post);
+		void EditPost(Post post);
+		void DeletePost(int postId);
+		void RemovePost(int postId);
 
 
 		IEnumerable<Comment> GetCommentsForPost(int postId);
 		IEnumerable<Comment> GetCommentsForUser(int userId);
 		void AddComment(Comment comment);
-		void UpdateComment(Comment comment);
-		void DeleteComment(Comment comment);
-		void RemoveComment(Comment comment);
+		void EditComment(Comment comment);
+		void DeleteComment(int commentId);
+		void RemoveComment(int commentId);
 	}
 }
