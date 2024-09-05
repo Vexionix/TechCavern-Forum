@@ -7,7 +7,7 @@ namespace Forum.Controllers
 {
 	[Route("api/[controller]/{postId}")]
 	[ApiController]
-	public class CommentController : ControllerBase
+	public class CommentsController : ControllerBase
 	{
 		[HttpGet]
 		public ActionResult<List<Comment>> GetCommentsForPost([FromRoute] int postId)

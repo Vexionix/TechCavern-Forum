@@ -1,4 +1,3 @@
-
 using Forum.Data.DbContexts;
 using Forum.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -14,16 +13,16 @@ namespace Forum
 			// Add services to the container.
 
 			builder.Services.AddControllers();
+
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
 			builder.Services.AddDbContext<ForumDbContext>(options => options.UseSqlServer(builder.Configuration["ForumConnectionString"]));
 
-			var app = builder.Build();
-
 			builder.Services.AddScoped<IForumRepository, ForumRepository>();
 
+			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())

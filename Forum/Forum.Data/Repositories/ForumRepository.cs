@@ -7,7 +7,8 @@ namespace Forum.Data.Repositories
 	{
 		private readonly ForumDbContext _forumDbContext;
 
-		public ForumRepository(ForumDbContext forumDbContext) {
+		public ForumRepository(ForumDbContext forumDbContext)
+		{
 			_forumDbContext = forumDbContext;
 		}
 
@@ -18,26 +19,55 @@ namespace Forum.Data.Repositories
 		}
 		public IEnumerable<User> GetAllUsers()
 		{
-			return _forumDbContext.Users;
+			return _forumDbContext.Users.Select(user =>
+					new User(user.Username, user.Email, user.Password, user.SelectedTitle, user.Bio, user.Location)
+					{
+						Id = user.Id,
+						CreatedAt = user.CreatedAt,
+						Role = user.Role
+					}
+				).ToList();
+
 		}
 		public void AddUser(User user)
 		{
-			_forumDbContext.Users.Add(user);
+			_forumDbContext.Users
+				.Add(user);
+
+			Title? defaultTitle = _forumDbContext.Titles.FirstOrDefault(x => x.Id == 1);
+			if (defaultTitle != null)
+			{
+				user.Titles.Add(defaultTitle);
+			}
+
 			_forumDbContext.SaveChanges();
+		}
+		public bool DoesUserWithUsernameOrEmailExist(string username, string email)
+		{
+			return _forumDbContext.Users.Where(x => x.Username ==  username || x.Email == email).Any();
 		}
 
 
 		// Titles
 		public IEnumerable<Title> GetTitlesForUser(int userId)
 		{
-			return _forumDbContext.Titles.Where(x => x.Users.Contains(GetUserById(userId)));
+			User? user = _forumDbContext.Users.FirstOrDefault(x => x.Id == userId);
+
+			if (user is not null)
+				return _forumDbContext.Titles
+					.Where(x => x.Users
+					.Contains(user))
+					.Select(t => new Title(t.TitleName) { Id = t.Id })
+					.ToList();
+
+			return [];
 		}
 		public void UnlockTitleForUser(int userId, int titleId)
 		{
 			User? user = _forumDbContext.Users.FirstOrDefault(x => x.Id == userId);
 			Title? title = _forumDbContext.Titles.FirstOrDefault(x => x.Id == titleId);
-			
-			if(user is not null && title is not null)
+
+			if (user is not null && title is not null)
 			{
 				user.Titles.Add(title);
 			}
@@ -49,21 +79,31 @@ namespace Forum.Data.Repositories
 		// Categories
 		public IEnumerable<Category> GetAllCategories()
 		{
-			return _forumDbContext.Categories;
+			return _forumDbContext.Categories.Select(x => new Category(x.Name) { Id = x.Id }).ToList();
 		}
 
 
 		// Subcategories
 		public IEnumerable<Subcategory> GetSubCategoriesForCategory(int categoryId)
 		{
-			return _forumDbContext.Subcategories.Where(x => x.CategoryId == categoryId);
+			return _forumDbContext.Subcategories.Where(x => x.CategoryId == categoryId)
+				.Select(y => new Subcategory(y.Name, y.CategoryId) 
+				{ 
+					Id = y.Id 
+				})
+				.ToList();
 		}
 
 
 		// Posts
 		public IEnumerable<Post> GetPostsForSubcategory(int subcategoryId)
 		{
-			return _forumDbContext.Posts.Where(x => x.SubcategoryId == subcategoryId);
+			return _forumDbContext.Posts.Where(x => x.SubcategoryId == subcategoryId)
+				.Select(y => new Post(y.Title, y.Content, y.UserId, y.SubcategoryId) 
+				{ 
+					Id = y.Id 
+				})
+				.ToList();
 		}
 		public Post? GetLatestPostForSubcategory(int subcategoryId)
 		{
@@ -81,7 +121,7 @@ namespace Forum.Data.Repositories
 		public void EditPost(Post editedPost)
 		{
 			Post? postToEdit = _forumDbContext.Posts.FirstOrDefault(x => x.Id == editedPost.Id);
-			
+
 			if (postToEdit is not null)
 			{
 				postToEdit.Title = editedPost.Title;
@@ -123,11 +163,21 @@ namespace Forum.Data.Repositories
 		// Comments
 		public IEnumerable<Comment> GetCommentsForPost(int postId)
 		{
-			return _forumDbContext.Comments.Where(x => x.PostId == postId);
+			return _forumDbContext.Comments.Where(x => x.PostId == postId)
+				.Select(y => new Comment(y.Content, y.UserId, y.PostId)
+				{
+					Id = y.Id
+				})
+				.ToList();
 		}
 		public IEnumerable<Comment> GetCommentsForUser(int userId)
 		{
-			return _forumDbContext.Comments.Where(x => x.UserId == userId);
+			return _forumDbContext.Comments.Where(x => x.UserId == userId)
+				.Select(y => new Comment(y.Content, y.UserId, y.PostId)
+				{
+					Id = y.Id
+				})
+				.ToList();
 		}
 		public void AddComment(Comment comment)
 		{
