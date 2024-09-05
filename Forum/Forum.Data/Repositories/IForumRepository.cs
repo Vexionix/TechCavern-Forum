@@ -8,6 +8,7 @@ namespace Forum.Data.Repositories
 		User GetUserById(int id);
 		IEnumerable<User> GetAllUsers();
 		void AddUser(User user);
+		bool DoesUserWithUsernameOrEmailExist(string username, string email);
 
 
 		IEnumerable<Title> GetTitlesForUser(int userId);

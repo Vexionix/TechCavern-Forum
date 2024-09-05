@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Forum.Core.Enums;
+using System.Text.Json.Serialization;
 
 namespace Forum.Core.Entities
 {
@@ -14,6 +15,8 @@ namespace Forum.Core.Entities
 			SelectedTitle = selectedTitle;
 			Bio = bio;
 			Location = location;
+			CreatedAt = DateTime.Now;
+			Role = Role.Member;
 		}
 
 		[Key]
@@ -40,8 +43,8 @@ namespace Forum.Core.Entities
 		public string Location { get; set; }
 		public DateTime LastLoggedIn { get; set; } = DateTime.Now;
 		[Required]
-		public Role Role { get; set; } = Role.Member;
-		public DateTime CreatedAt { get; } = DateTime.Now;
+		public Role Role { get; set; }
+		public DateTime CreatedAt { get; set; }
 		public List<Title> Titles { get; set; } = [];
 		public List<Post> Posts { get; set; } = [];
 		public List<Comment> Comments { get; set; } = [];
