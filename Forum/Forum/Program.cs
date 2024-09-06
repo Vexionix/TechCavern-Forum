@@ -1,3 +1,4 @@
+using Forum.Core.Interfaces.Repositories;
 using Forum.Data.DbContexts;
 using Forum.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +21,10 @@ namespace Forum
 
 			builder.Services.AddDbContext<ForumDbContext>(options => options.UseSqlServer(builder.Configuration["ForumConnectionString"]));
 
-			builder.Services.AddScoped<IForumRepository, ForumRepository>();
+			builder.Services.AddScoped<IUserRepository, UserRepository>();
+			builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+			builder.Services.AddScoped<IPostRepository, PostRepository>();
+			builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 			var app = builder.Build();
 
