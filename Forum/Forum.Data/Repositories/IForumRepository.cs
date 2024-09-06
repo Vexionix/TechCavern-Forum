@@ -5,36 +5,36 @@ namespace Forum.Data.Repositories
 {
 	public interface IForumRepository
 	{
-		User GetUserById(int id);
-		IEnumerable<User> GetAllUsers();
-		void AddUser(User user);
-		bool DoesUserWithUsernameOrEmailExist(string username, string email);
+		Task<User> GetUserById(int id);
+		Task<IEnumerable<User>> GetAllUsers();
+		Task AddUser(User user);
+		Task<bool> DoesUserWithUsernameOrEmailExist(string username, string email);
 
 
-		IEnumerable<Title> GetTitlesForUser(int userId);
-		void UnlockTitleForUser(int userId, int titleId);
+		Task<IEnumerable<Title>> GetTitlesForUser(int userId);
+		Task UnlockTitleForUser(int userId, int titleId);
 
 
-		IEnumerable<Category> GetAllCategories();
+		Task<IEnumerable<Category>> GetAllCategories();
 
 
-		IEnumerable<Subcategory> GetSubCategoriesForCategory(int categoryId);
+		Task<IEnumerable<Subcategory>> GetSubCategoriesForCategory(int categoryId);
 
 
-		IEnumerable<Post> GetPostsForSubcategory(int subcategoryId);
-		Post GetPostById(int id);
-		Post GetLatestPostForSubcategory(int subcategoryId);
-		void AddPost(Post post);
-		void EditPost(Post post);
-		void DeletePost(int postId);
-		void RemovePost(int postId);
+		Task<IEnumerable<Post>> GetPostsForSubcategory(int subcategoryId);
+		Task<Post> GetPostById(int id);
+		Task<Post> GetLatestPostForSubcategory(int subcategoryId);
+		Task AddPost(Post post);
+		Task EditPost(Post post);
+		Task DeletePost(int postId);
+		Task RemovePost(int postId);
 
 
-		IEnumerable<Comment> GetCommentsForPost(int postId);
-		IEnumerable<Comment> GetCommentsForUser(int userId);
-		void AddComment(Comment comment);
-		void EditComment(Comment comment);
-		void DeleteComment(int commentId);
-		void RemoveComment(int commentId);
+		Task<IEnumerable<Comment>> GetCommentsForPost(int postId);
+		Task<IEnumerable<Comment>> GetCommentsForUser(int userId);
+		Task AddComment(Comment comment);
+		Task EditComment(Comment comment);
+		Task DeleteComment(int commentId);
+		Task RemoveComment(int commentId);
 	}
 }
