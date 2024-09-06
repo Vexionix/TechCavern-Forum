@@ -17,12 +17,13 @@ namespace Forum.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult<List<User>> GetUsers()
+		public async Task<ActionResult<List<User>>> GetUsers()
 		{
 			// for testing purposes but might be used in another form for an admin panel page with pagination
 			// to allow editing certain details about users (inappropriate bios/pfps etc.) or give them special titles
 
-			var users = _forumRepository.GetAllUsers().Select(x => new UserDto()
+			var users = await _forumRepository.GetAllUsers();
+			var userDtos = await Task.WhenAll(users.Select(async x => new UserDto()
 			{
 				Id = x.Id,
 				Username = x.Username,
@@ -31,16 +32,16 @@ namespace Forum.Controllers
 				SelectedTitle = x.SelectedTitle,
 				Role = x.Role,
 				CreatedAt = x.CreatedAt,
-				Titles = _forumRepository.GetTitlesForUser(x.Id).Select(t=> new TitleDto() { Id = t.Id, Title = t.TitleName }).ToList()
-			});
+				Titles = (await _forumRepository.GetTitlesForUser(x.Id)).Select(t=> new TitleDto() { Id = t.Id, Title = t.TitleName }).ToList()
+			}));
 
-			return Ok(users);
+			return Ok(userDtos);
 		}
 
 		[HttpPost("register")]
-		public ActionResult RegisterUser([FromBody] UserRegister userRegisterBody)
+		public async Task<ActionResult> RegisterUser([FromBody] UserRegister userRegisterBody)
 		{
-			if (_forumRepository.DoesUserWithUsernameOrEmailExist(userRegisterBody.Username, userRegisterBody.Email) == true)
+			if (await _forumRepository.DoesUserWithUsernameOrEmailExist(userRegisterBody.Username, userRegisterBody.Email) == true)
 			{
 				return StatusCode(StatusCodes.Status412PreconditionFailed, "User with the same username or email already exists");
 			}
@@ -52,13 +53,13 @@ namespace Forum.Controllers
 				"We don't know much about them, but we are sure they are cool.", 
 				"Romania");
 
-			_forumRepository.AddUser(newUser);
+			await _forumRepository.AddUser(newUser);
 
 			return StatusCode(StatusCodes.Status201Created);
 		}
 
 		[HttpPost("login")]
-		public ActionResult LoginUser([FromBody] UserLogin userLoginBody)
+		public async Task<ActionResult> LoginUser([FromBody] UserLogin userLoginBody)
 		{
 			//var user = new User();
 			//TODO properly (take entity from db to compare to the given input and return a response based on that)

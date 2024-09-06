@@ -10,7 +10,7 @@ namespace Forum.Controllers
 	public class CommentsController : ControllerBase
 	{
 		[HttpGet]
-		public ActionResult<List<Comment>> GetCommentsForPost([FromRoute] int postId)
+		public async Task<ActionResult<List<Comment>>> GetCommentsForPost([FromRoute] int postId)
 		{
 			var comments = new List<Comment>();
 			//TODO

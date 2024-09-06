@@ -13,11 +13,11 @@ namespace Forum.Data.Repositories
 		}
 
 		// Users
-		public User? GetUserById(int id)
+		public async Task<User?> GetUserById(int id)
 		{
 			return _forumDbContext.Users.FirstOrDefault(x => x.Id == id);
 		}
-		public IEnumerable<User> GetAllUsers()
+		public async Task<IEnumerable<User>> GetAllUsers()
 		{
 			return _forumDbContext.Users.Select(user =>
 					new User(user.Username, user.Email, user.Password, user.SelectedTitle, user.Bio, user.Location)
@@ -29,7 +29,7 @@ namespace Forum.Data.Repositories
 				).ToList();
 
 		}
-		public void AddUser(User user)
+		public async Task AddUser(User user)
 		{
 			_forumDbContext.Users
 				.Add(user);
@@ -42,14 +42,14 @@ namespace Forum.Data.Repositories
 
 			_forumDbContext.SaveChanges();
 		}
-		public bool DoesUserWithUsernameOrEmailExist(string username, string email)
+		public async Task<bool> DoesUserWithUsernameOrEmailExist(string username, string email)
 		{
 			return _forumDbContext.Users.Where(x => x.Username ==  username || x.Email == email).Any();
 		}
 
 
 		// Titles
-		public IEnumerable<Title> GetTitlesForUser(int userId)
+		public async Task<IEnumerable<Title>> GetTitlesForUser(int userId)
 		{
 			User? user = _forumDbContext.Users.FirstOrDefault(x => x.Id == userId);
 
@@ -62,7 +62,7 @@ namespace Forum.Data.Repositories
 
 			return [];
 		}
-		public void UnlockTitleForUser(int userId, int titleId)
+		public async Task UnlockTitleForUser(int userId, int titleId)
 		{
 			User? user = _forumDbContext.Users.FirstOrDefault(x => x.Id == userId);
 			Title? title = _forumDbContext.Titles.FirstOrDefault(x => x.Id == titleId);
@@ -77,14 +77,14 @@ namespace Forum.Data.Repositories
 
 
 		// Categories
-		public IEnumerable<Category> GetAllCategories()
+		public async Task<IEnumerable<Category>> GetAllCategories()
 		{
 			return _forumDbContext.Categories.Select(x => new Category(x.Name) { Id = x.Id }).ToList();
 		}
 
 
 		// Subcategories
-		public IEnumerable<Subcategory> GetSubCategoriesForCategory(int categoryId)
+		public async Task<IEnumerable<Subcategory>> GetSubCategoriesForCategory(int categoryId)
 		{
 			return _forumDbContext.Subcategories.Where(x => x.CategoryId == categoryId)
 				.Select(y => new Subcategory(y.Name, y.CategoryId) 
@@ -96,7 +96,7 @@ namespace Forum.Data.Repositories
 
 
 		// Posts
-		public IEnumerable<Post> GetPostsForSubcategory(int subcategoryId)
+		public async Task<IEnumerable<Post>> GetPostsForSubcategory(int subcategoryId)
 		{
 			return _forumDbContext.Posts.Where(x => x.SubcategoryId == subcategoryId)
 				.Select(y => new Post(y.Title, y.Content, y.UserId, y.SubcategoryId) 
@@ -105,20 +105,20 @@ namespace Forum.Data.Repositories
 				})
 				.ToList();
 		}
-		public Post? GetLatestPostForSubcategory(int subcategoryId)
+		public async Task<Post?> GetLatestPostForSubcategory(int subcategoryId)
 		{
 			return _forumDbContext.Posts.OrderByDescending(x => x.CreatedAt).FirstOrDefault(x => x.Subcategory.Id == subcategoryId);
 		}
-		public Post? GetPostById(int id)
+		public async Task<Post?> GetPostById(int id)
 		{
 			return _forumDbContext.Posts.FirstOrDefault(x => x.Id == id);
 		}
-		public void AddPost(Post post)
+		public async Task AddPost(Post post)
 		{
 			_forumDbContext.Posts.Add(post);
 			_forumDbContext.SaveChanges();
 		}
-		public void EditPost(Post editedPost)
+		public async Task EditPost(Post editedPost)
 		{
 			Post? postToEdit = _forumDbContext.Posts.FirstOrDefault(x => x.Id == editedPost.Id);
 
@@ -132,7 +132,7 @@ namespace Forum.Data.Repositories
 
 			_forumDbContext.SaveChanges();
 		}
-		public void DeletePost(int postId)
+		public async Task DeletePost(int postId)
 		{
 			Post? postToDelete = _forumDbContext.Posts.FirstOrDefault(x => x.Id == postId);
 
@@ -145,7 +145,7 @@ namespace Forum.Data.Repositories
 
 			_forumDbContext.SaveChanges();
 		}
-		public void RemovePost(int postId)
+		public async Task RemovePost(int postId)
 		{
 			Post? PostToRemove = _forumDbContext.Posts.FirstOrDefault(x => x.Id == postId);
 
@@ -161,7 +161,7 @@ namespace Forum.Data.Repositories
 
 
 		// Comments
-		public IEnumerable<Comment> GetCommentsForPost(int postId)
+		public async Task<IEnumerable<Comment>> GetCommentsForPost(int postId)
 		{
 			return _forumDbContext.Comments.Where(x => x.PostId == postId)
 				.Select(y => new Comment(y.Content, y.UserId, y.PostId)
@@ -170,7 +170,7 @@ namespace Forum.Data.Repositories
 				})
 				.ToList();
 		}
-		public IEnumerable<Comment> GetCommentsForUser(int userId)
+		public async Task<IEnumerable<Comment>> GetCommentsForUser(int userId)
 		{
 			return _forumDbContext.Comments.Where(x => x.UserId == userId)
 				.Select(y => new Comment(y.Content, y.UserId, y.PostId)
@@ -179,12 +179,12 @@ namespace Forum.Data.Repositories
 				})
 				.ToList();
 		}
-		public void AddComment(Comment comment)
+		public async Task AddComment(Comment comment)
 		{
 			_forumDbContext.Comments.Add(comment);
 			_forumDbContext.SaveChanges();
 		}
-		public void EditComment(Comment editedComment)
+		public async Task EditComment(Comment editedComment)
 		{
 			Comment? commentToEdit = _forumDbContext.Comments.FirstOrDefault(x => x.Id == editedComment.Id);
 
@@ -197,7 +197,7 @@ namespace Forum.Data.Repositories
 
 			_forumDbContext.SaveChanges();
 		}
-		public void DeleteComment(int commentId)
+		public async Task DeleteComment(int commentId)
 		{
 			Comment? commentToDelete = _forumDbContext.Comments.FirstOrDefault(x => x.Id == commentId);
 
@@ -210,7 +210,7 @@ namespace Forum.Data.Repositories
 
 			_forumDbContext.SaveChanges();
 		}
-		public void RemoveComment(int commentId)
+		public async Task RemoveComment(int commentId)
 		{
 			Comment? commentToRemove = _forumDbContext.Comments.FirstOrDefault(x => x.Id == commentId);
 
