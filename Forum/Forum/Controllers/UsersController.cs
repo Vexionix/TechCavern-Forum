@@ -1,5 +1,5 @@
 ﻿using Forum.Core.Entities;
-using Forum.Data.Repositories;
+using Forum.Core.Interfaces.Repositories;
 using Forum.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,11 +9,11 @@ namespace Forum.Controllers
 	[ApiController]
 	public class UsersController : ControllerBase
 	{
-		private readonly IForumRepository _forumRepository;
+		private readonly IUserRepository _userRepository;
 
-		public UsersController(IForumRepository forumRepository)
+		public UsersController(IUserRepository userRepository)
 		{
-			_forumRepository = forumRepository;
+			_userRepository = userRepository;
 		}
 
 		[HttpGet]
@@ -22,18 +22,18 @@ namespace Forum.Controllers
 			// for testing purposes but might be used in another form for an admin panel page with pagination
 			// to allow editing certain details about users (inappropriate bios/pfps etc.) or give them special titles
 
-			var users = await _forumRepository.GetAllUsers();
-			var userDtos = await Task.WhenAll(users.Select(async x => new UserDto()
+			var users = await _userRepository.GetAllUsers();
+			var userDtos = users.Select(user => new UserDto
 			{
-				Id = x.Id,
-				Username = x.Username,
-				Email = x.Email,
-				Bio = x.Bio,
-				SelectedTitle = x.SelectedTitle,
-				Role = x.Role,
-				CreatedAt = x.CreatedAt,
-				Titles = (await _forumRepository.GetTitlesForUser(x.Id)).Select(t=> new TitleDto() { Id = t.Id, Title = t.TitleName }).ToList()
-			}));
+				Id = user.Id,
+				Username = user.Username,
+				Email = user.Email,
+				Bio = user.Bio,
+				SelectedTitle = user.SelectedTitle,
+				Role = user.Role,
+				CreatedAt = user.CreatedAt,
+				Titles = user.Titles.Select(t => new TitleDto { Id = t.Id, Title = t.TitleName }).ToList()
+			}).ToList();
 
 			return Ok(userDtos);
 		}
@@ -41,19 +41,19 @@ namespace Forum.Controllers
 		[HttpPost("register")]
 		public async Task<ActionResult> RegisterUser([FromBody] UserRegister userRegisterBody)
 		{
-			if (await _forumRepository.DoesUserWithUsernameOrEmailExist(userRegisterBody.Username, userRegisterBody.Email) == true)
+			if (await _userRepository.UserAlreadyExists(userRegisterBody.Username, userRegisterBody.Email) == true)
 			{
 				return StatusCode(StatusCodes.Status412PreconditionFailed, "User with the same username or email already exists");
 			}
 
-			var newUser = new User(userRegisterBody.Username, 
-				userRegisterBody.Email, 
+			var newUser = new User(userRegisterBody.Username,
+				userRegisterBody.Email,
 				userRegisterBody.Password, // add encryption
-				"Member", 
-				"We don't know much about them, but we are sure they are cool.", 
+				"Member",
+				"We don't know much about them, but we are sure they are cool.",
 				"Romania");
 
-			await _forumRepository.AddUser(newUser);
+			await _userRepository.AddUser(newUser);
 
 			return StatusCode(StatusCodes.Status201Created);
 		}
