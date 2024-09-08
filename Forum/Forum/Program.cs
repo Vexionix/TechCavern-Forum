@@ -1,4 +1,6 @@
+using Forum.Application.Services;
 using Forum.Core.Interfaces.Repositories;
+using Forum.Core.Interfaces.Services;
 using Forum.Data.DbContexts;
 using Forum.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +27,8 @@ namespace Forum
 			builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 			builder.Services.AddScoped<IPostRepository, PostRepository>();
 			builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+
+			builder.Services.AddScoped<IPasswordService, PasswordService>();
 
 			var app = builder.Build();
 

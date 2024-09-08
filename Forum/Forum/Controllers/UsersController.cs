@@ -1,5 +1,6 @@
 ﻿using Forum.Core.Entities;
 using Forum.Core.Interfaces.Repositories;
+using Forum.Core.Interfaces.Services;
 using Forum.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,12 @@ namespace Forum.Controllers
 	public class UsersController : ControllerBase
 	{
 		private readonly IUserRepository _userRepository;
+		private readonly IPasswordService _passwordService;
 
-		public UsersController(IUserRepository userRepository)
+		public UsersController(IUserRepository userRepository, IPasswordService passwordService)
 		{
 			_userRepository = userRepository;
+			_passwordService = passwordService;
 		}
 
 		[HttpGet]
@@ -43,12 +46,17 @@ namespace Forum.Controllers
 		{
 			if (await _userRepository.UserAlreadyExists(userRegisterBody.Username, userRegisterBody.Email) == true)
 			{
-				return StatusCode(StatusCodes.Status412PreconditionFailed, "User with the same username or email already exists");
+				return StatusCode(StatusCodes.Status400BadRequest, "User with the same username or email already exists");
+			}
+
+			if (!_passwordService.CheckCriteria(userRegisterBody.Password))
+			{
+				return StatusCode(StatusCodes.Status400BadRequest, "Password does not meet criteria.");
 			}
 
 			var newUser = new User(userRegisterBody.Username,
 				userRegisterBody.Email,
-				userRegisterBody.Password, // add encryption
+				_passwordService.Encrypt(userRegisterBody.Password), 
 				"Member",
 				"We don't know much about them, but we are sure they are cool.",
 				"Romania");
@@ -61,8 +69,18 @@ namespace Forum.Controllers
 		[HttpPost("login")]
 		public async Task<ActionResult> LoginUser([FromBody] UserLogin userLoginBody)
 		{
-			//var user = new User();
-			//TODO properly (take entity from db to compare to the given input and return a response based on that)
+			var user = await _userRepository.GetUserByUsername(userLoginBody.Username);
+
+			if (user is null)
+			{
+				return StatusCode(StatusCodes.Status400BadRequest, "No user with such username exists.");
+			}
+
+			if (!_passwordService.CheckMatchingHash(userLoginBody.Password, user.PasswordHash))
+			{
+				return StatusCode(StatusCodes.Status400BadRequest, "Wrong password.");
+			}
+			
 			return StatusCode(StatusCodes.Status200OK);
 		}
 	}

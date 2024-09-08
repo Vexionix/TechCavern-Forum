@@ -5,6 +5,7 @@ namespace Forum.Core.Interfaces.Repositories
 	public interface IUserRepository
 	{
 		Task<User?> GetUserById(int id);
+		Task<User?> GetUserByUsername(string username);
 		Task<IEnumerable<User>> GetAllUsers();
 		Task AddUser(User user);
 		Task<bool> UserAlreadyExists(string username, string email);
