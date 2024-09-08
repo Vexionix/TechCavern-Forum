@@ -13,5 +13,13 @@ namespace Forum.Data.DbContexts
 		public DbSet<User> Users { get; set; }
 
 		public ForumDbContext(DbContextOptions options): base(options) { }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<Title>()
+				.HasData(new Title("Member") { Id = 1 });
+
+			base.OnModelCreating(modelBuilder);
+		}
 	}
 }

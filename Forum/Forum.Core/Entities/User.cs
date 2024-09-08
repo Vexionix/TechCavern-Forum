@@ -7,11 +7,11 @@ namespace Forum.Core.Entities
 {
 	public class User
 	{
-		public User(string username, string email, string password, string selectedTitle, string bio, string location)
+		public User(string username, string email, string passwordHash, string selectedTitle, string bio, string location)
 		{
 			Username = username;
 			Email = email;
-			Password = password;
+			PasswordHash = passwordHash;
 			SelectedTitle = selectedTitle;
 			Bio = bio;
 			Location = location;
@@ -31,7 +31,7 @@ namespace Forum.Core.Entities
 		public string Email { get; set; }
 		[Required]
 		[MaxLength(100)]
-		public string Password { get; set; }
+		public string PasswordHash { get; set; }
 		[Required]
 		[MaxLength(20)]
 		public string SelectedTitle { get; set; }

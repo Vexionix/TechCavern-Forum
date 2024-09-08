@@ -18,10 +18,14 @@ namespace Forum.Data.Repositories
 		{
 			return await _forumDbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
 		}
+		public async Task<User?> GetUserByUsername(string username)
+		{
+			return await _forumDbContext.Users.FirstOrDefaultAsync(x => x.Username == username);
+		}
 		public async Task<IEnumerable<User>> GetAllUsers()
 		{
 			return await _forumDbContext.Users.Include(x => x.Titles).Select(user =>
-					new User(user.Username, user.Email, user.Password, user.SelectedTitle, user.Bio, user.Location)
+					new User(user.Username, user.Email, user.PasswordHash, user.SelectedTitle, user.Bio, user.Location)
 					{
 						Id = user.Id,
 						CreatedAt = user.CreatedAt,
