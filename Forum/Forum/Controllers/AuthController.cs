@@ -40,7 +40,7 @@ namespace Forum.Controllers
 
 			var newUser = new User(userRegisterBody.Username,
 				userRegisterBody.Email,
-				_passwordService.Encrypt(userRegisterBody.Password), 
+				_passwordService.Encrypt(userRegisterBody.Password),
 				"Member",
 				"We don't know much about them, but we are sure they are cool.",
 				"Romania");
@@ -64,15 +64,41 @@ namespace Forum.Controllers
 			{
 				return StatusCode(StatusCodes.Status400BadRequest, "Wrong password.");
 			}
-			
+
+			if (user.IsBanned)
+			{
+				return StatusCode(StatusCodes.Status400BadRequest, "You are trying to login to a banned account.");
+			}
+
 			return StatusCode(StatusCodes.Status200OK, CreateToken(user));
 		}
 
 		private string CreateToken(User user)
 		{
+			if (user is null)
+			{
+				return "";
+			}
+
+			string role;
+
+			switch (user.Role)
+			{
+				case Core.Enums.Role.Member:
+					role = "Member";
+					break;
+				case Core.Enums.Role.Admin:
+					role = "Admin";
+					break;
+				default:
+					role = "defaultValue";
+					break;
+			}
+
 			List<Claim> claims = new List<Claim>()
 			{
-				new Claim(ClaimTypes.Name, user.Username)
+				new Claim(ClaimTypes.Name, user.Username),
+				new Claim(ClaimTypes.Role, role)
 			};
 
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value!));
