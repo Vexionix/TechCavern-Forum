@@ -2,6 +2,7 @@
 using Forum.Core.Interfaces.Repositories;
 using Forum.Core.Interfaces.Services;
 using Forum.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Controllers
@@ -17,7 +18,7 @@ namespace Forum.Controllers
 			_userRepository = userRepository;
 		}
 
-		[HttpGet]
+		[HttpGet, Authorize(Roles = "Member, Admin")]
 		public async Task<ActionResult<List<User>>> GetUsers()
 		{
 			// for testing purposes but might be used in another form for an admin panel page with pagination

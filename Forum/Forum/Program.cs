@@ -4,6 +4,9 @@ using Forum.Core.Interfaces.Services;
 using Forum.Data.DbContexts;
 using Forum.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Forum
 {
@@ -20,6 +23,17 @@ namespace Forum
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
+
+			builder.Services.AddAuthentication().AddJwtBearer(options =>
+			{
+				options.TokenValidationParameters = new TokenValidationParameters
+				{
+					ValidateIssuerSigningKey = true,
+					ValidateAudience = false,
+					ValidateIssuer = false,
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value!))
+				};
+			});
 
 			builder.Services.AddDbContext<ForumDbContext>(options => options.UseSqlServer(builder.Configuration["ForumConnectionString"]));
 
@@ -42,7 +56,6 @@ namespace Forum
 			app.UseHttpsRedirection();
 
 			app.UseAuthorization();
-
 
 			app.MapControllers();
 
