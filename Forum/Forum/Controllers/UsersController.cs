@@ -18,7 +18,7 @@ namespace Forum.Controllers
 			_userRepository = userRepository;
 		}
 
-		[HttpGet, Authorize(Roles = "Member, Admin")]
+		[HttpGet, Authorize(Roles = "Member,Admin")]
 		public async Task<ActionResult<List<User>>> GetUsers()
 		{
 			// for testing purposes but might be used in another form for an admin panel page with pagination
