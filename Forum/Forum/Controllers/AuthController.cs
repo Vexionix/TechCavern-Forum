@@ -1,4 +1,5 @@
-﻿using Forum.Core.Entities;
+﻿using Forum.API.Models;
+using Forum.Core.Entities;
 using Forum.Core.Interfaces.Repositories;
 using Forum.Core.Interfaces.Services;
 using Forum.Models;
@@ -6,7 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Forum.Controllers
 {
@@ -41,7 +44,7 @@ namespace Forum.Controllers
 			var newUser = new User(userRegisterBody.Username,
 				userRegisterBody.Email,
 				_passwordService.Encrypt(userRegisterBody.Password),
-				"Member",
+				"",
 				"We don't know much about them, but we are sure they are cool.",
 				"Romania");
 
@@ -70,7 +73,72 @@ namespace Forum.Controllers
 				return StatusCode(StatusCodes.Status400BadRequest, "You are trying to login to a banned account.");
 			}
 
+			var refreshToken = GenerateRefreshToken();
+			SetRefreshToken(refreshToken);
+			
+			await _userRepository.AddRefreshToken(new RefreshToken(user.Id, refreshToken.Token, refreshToken.ExpiresAt)
+			{
+				CreatedAt = refreshToken.CreatedAt
+			});
+
 			return StatusCode(StatusCodes.Status200OK, CreateToken(user));
+		}
+
+		[HttpPost("refresh-token"), Authorize]
+		public async Task<ActionResult<string>> RefreshToken()
+		{
+			var refreshToken = Request.Cookies["refreshToken"];
+
+			Console.WriteLine(refreshToken);
+
+			var userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+			User? user = await _userRepository.GetUserById(userId);
+
+			if(user is null)
+			{
+				return BadRequest("User doesn't exist.");
+			}
+
+			if((await _userRepository.GetRefreshTokensForUserId(userId)).Any(x => x.Token == refreshToken))
+			{
+				await _userRepository.RemoveRefreshToken(refreshToken!);
+
+				string token = CreateToken(user);
+				var newRefreshToken = GenerateRefreshToken();
+				SetRefreshToken(newRefreshToken);
+
+				await _userRepository.AddRefreshToken(new RefreshToken(user.Id, newRefreshToken.Token, newRefreshToken.ExpiresAt)
+				{
+					CreatedAt = newRefreshToken.CreatedAt
+				});
+
+				return Ok(token);
+			}
+
+			return BadRequest("Invalid refresh token");
+		}
+
+		private RefreshTokenDto GenerateRefreshToken()
+		{
+			var refreshToken = new RefreshTokenDto
+			{
+				Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+				ExpiresAt = DateTime.Now.AddDays(7)
+			};
+
+			return refreshToken;
+		}
+
+		private void SetRefreshToken(RefreshTokenDto refreshToken)
+		{
+			var cookieOptions = new CookieOptions
+			{
+				HttpOnly = true,
+				Expires = refreshToken.ExpiresAt
+			};
+
+			Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
 		}
 
 		private string CreateToken(User user)
@@ -97,7 +165,7 @@ namespace Forum.Controllers
 
 			List<Claim> claims = new List<Claim>()
 			{
-				new Claim(ClaimTypes.Name, user.Username),
+				new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
 				new Claim(ClaimTypes.Role, role)
 			};
 

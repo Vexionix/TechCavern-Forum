@@ -10,7 +10,14 @@ namespace Forum.Core.Interfaces.Repositories
 		Task AddUser(User user);
 		Task<bool> UserAlreadyExists(string username, string email);
 
+		Task<IEnumerable<RefreshToken>> GetRefreshTokensForUserId(int userId);
+		Task AddRefreshToken(RefreshToken token);
+		Task RemoveRefreshToken(string token);
+		Task RemoveExpiredRefreshTokens();
+
 		Task<IEnumerable<Title>> GetTitlesForUser(int userId);
+		Task<Title?> GetTitleByName(string name);
+		Task AddTitle(string name);
 		Task UnlockTitleForUser(int userId, int titleId);
 	}
 }
