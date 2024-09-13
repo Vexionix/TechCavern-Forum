@@ -1,3 +1,4 @@
+using Forum.API.Services;
 using Forum.Application.Services;
 using Forum.Core.Interfaces.Repositories;
 using Forum.Core.Interfaces.Services;
@@ -43,6 +44,10 @@ namespace Forum
 			builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 			builder.Services.AddScoped<IPasswordService, PasswordService>();
+			builder.Services.AddScoped<IValidationService, ValidationService>();
+			builder.Services.AddScoped<ITokenService, TokenService>();
+
+			builder.Services.AddScoped<IAuthService, AuthService>();
 
 			var app = builder.Build();
 
