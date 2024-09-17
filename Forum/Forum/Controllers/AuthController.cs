@@ -1,13 +1,7 @@
-﻿using Forum.API.Models;
-using Forum.Core.Entities;
-using Forum.Core.Interfaces.Services;
+﻿using Forum.Core.Interfaces.Services;
 using Forum.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Forum.Core.Exceptions;
 
@@ -52,9 +46,9 @@ namespace Forum.Controllers
 				string token = await _authService.LoginUser(userLoginBody, _configuration.GetSection("AppSettings:Token").Value!, Response);
 				return StatusCode(StatusCodes.Status200OK, token);
 			}
-			catch (BadRequestException ex)
+			catch (BadRequestException)
 			{
-				return BadRequest(ex.Message);
+				return BadRequest("Invalid username or password");
 			}
 			catch (Exception)
 			{

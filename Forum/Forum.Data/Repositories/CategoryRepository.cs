@@ -20,7 +20,8 @@ namespace Forum.Data.Repositories
 				.Select(x => new Category(x.Name) { Id = x.Id })
 				.ToListAsync();
 		}
-		public async Task<IEnumerable<Subcategory>> GetSubCategoriesForCategory(int categoryId)
+
+		public async Task<IEnumerable<Subcategory>> GetSubcategoriesByCategoryId(int categoryId)
 		{
 			return await _forumDbContext.Subcategories
 				.Where(x => x.CategoryId == categoryId)
