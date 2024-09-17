@@ -23,11 +23,12 @@ namespace Forum.Application.Services
 				throw new BadRequestException("User with the same username or email already exists");
 			}
 
-			if (!_passwordService.CheckCriteria(userRegisterBody.Password))
+			if (!_passwordService.IsCompliantWithValidityCriteria(userRegisterBody.Password))
 			{
 				throw new BadRequestException("Password does not meet criteria.");
 			}
 		}
+
 		public void CheckLoginConditions(User user, UserLogin userLoginBody)
 		{
 			if (user is null)
@@ -35,7 +36,7 @@ namespace Forum.Application.Services
 				throw new BadRequestException("No user with such username exists.");
 			}
 
-			if (!_passwordService.CheckMatchingHash(userLoginBody.Password, user.PasswordHash))
+			if (!_passwordService.IsMatchingHash(userLoginBody.Password, user.PasswordHash))
 			{
 				throw new BadRequestException("Wrong password.");
 			}

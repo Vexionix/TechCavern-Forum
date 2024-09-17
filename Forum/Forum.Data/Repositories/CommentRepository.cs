@@ -20,17 +20,20 @@ namespace Forum.Data.Repositories
 				.Select(y => new Comment(y.Content, y.UserId, y.PostId) { Id = y.Id })
 				.ToListAsync();
 		}
+
 		public async Task<IEnumerable<Comment>> GetCommentsForUser(int userId)
 		{
 			return await _forumDbContext.Comments.Where(x => x.UserId == userId)
 				.Select(y => new Comment(y.Content, y.UserId, y.PostId) { Id = y.Id })
 				.ToListAsync();
 		}
+
 		public async Task AddComment(Comment comment)
 		{
 			await _forumDbContext.Comments.AddAsync(comment);
 			await _forumDbContext.SaveChangesAsync();
 		}
+
 		public async Task EditComment(Comment editedComment)
 		{
 			Comment? commentToEdit = await _forumDbContext.Comments.FirstOrDefaultAsync(x => x.Id == editedComment.Id);
@@ -40,10 +43,10 @@ namespace Forum.Data.Repositories
 				commentToEdit.Content = editedComment.Content;
 				commentToEdit.IsEdited = true;
 				commentToEdit.LastEditedAt = DateTime.Now;
+				await _forumDbContext.SaveChangesAsync();
 			}
-
-			await _forumDbContext.SaveChangesAsync();
 		}
+
 		public async Task DeleteComment(int commentId)
 		{
 			Comment? commentToDelete = await _forumDbContext.Comments.FirstOrDefaultAsync(x => x.Id == commentId);
@@ -53,10 +56,10 @@ namespace Forum.Data.Repositories
 				commentToDelete.IsRemovedByAdmin = true;
 				commentToDelete.Content = "Comment removed by the moderation team.";
 				commentToDelete.IsEdited = false;
+				await _forumDbContext.SaveChangesAsync();
 			}
-
-			await _forumDbContext.SaveChangesAsync();
 		}
+
 		public async Task RemoveComment(int commentId)
 		{
 			Comment? commentToRemove = await _forumDbContext.Comments.FirstOrDefaultAsync(x => x.Id == commentId);
@@ -66,9 +69,8 @@ namespace Forum.Data.Repositories
 				commentToRemove.IsRemovedByAdmin = true;
 				commentToRemove.Content = "Comment removed by the moderation team.";
 				commentToRemove.IsEdited = false;
+				await _forumDbContext.SaveChangesAsync();
 			}
-
-			await _forumDbContext.SaveChangesAsync();
 		}
 	}
 }

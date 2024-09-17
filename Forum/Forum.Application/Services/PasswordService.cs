@@ -5,12 +5,14 @@ namespace Forum.Application.Services
 	public class PasswordService : IPasswordService
 	{
 		int workFactor = 13;
+
 		public string Encrypt(string password)
 		{
 			string passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(password, workFactor);
 			return passwordHash;
 		}
-		public bool CheckCriteria(string password)
+
+		public bool IsCompliantWithValidityCriteria(string password)
 		{
 			char[] specialCh = (@"%!@#$%^&*()?/>.<,:;'\|}]{[_~`+=-" + "\"").ToCharArray();
 
@@ -24,7 +26,8 @@ namespace Forum.Application.Services
 
 			return true;
 		}
-		public bool CheckMatchingHash(string password, string passwordHash)
+
+		public bool IsMatchingHash(string password, string passwordHash)
 		{
 			return BCrypt.Net.BCrypt.EnhancedVerify(password, passwordHash);
 		}
