@@ -68,13 +68,64 @@ namespace Forum.Application.Services
 
 			var token = new JwtSecurityToken(
 				claims: claims,
-				expires: DateTime.Now.AddDays(1),
+				expires: DateTime.Now.AddMinutes(15),
 				signingCredentials: creds
 				);
 
 			var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
 			return jwt;
+		}
+
+		public ClaimsPrincipal? ValidateExpiredToken(string token, string privateKey)
+		{
+			var tokenHandler = new JwtSecurityTokenHandler();
+			var key = Encoding.UTF8.GetBytes(privateKey!);
+
+			try
+			{
+				var validationParameters = new TokenValidationParameters
+				{
+					ValidateIssuer = false,
+					ValidateAudience = false, 
+					ValidateLifetime = false, 
+					ValidateIssuerSigningKey = true, 
+					IssuerSigningKey = new SymmetricSecurityKey(key),
+				};
+
+				var principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
+
+				var jwtToken = validatedToken as JwtSecurityToken;
+				if (jwtToken == null)
+				{
+					return null; 
+				}
+
+				var expirationClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Exp)?.Value;
+				if (expirationClaim != null)
+				{
+					var expirationTime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(expirationClaim)).UtcDateTime;
+
+					if (expirationTime < DateTime.UtcNow)
+					{
+						return principal; 
+					}
+					else
+					{
+						return principal;
+					}
+				}
+
+				return null;
+			}
+			catch (SecurityTokenException)
+			{
+				return null;
+			}
+			catch (Exception)
+			{
+				return null;
+			}
 		}
 	}
 }
