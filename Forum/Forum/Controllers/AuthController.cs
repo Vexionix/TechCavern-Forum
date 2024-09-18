@@ -44,7 +44,7 @@ namespace Forum.Controllers
 			try
 			{
 				string token = await _authService.LoginUser(userLoginBody, _configuration.GetSection("AppSettings:Token").Value!, Response);
-				return StatusCode(StatusCodes.Status200OK, token);
+				return StatusCode(StatusCodes.Status200OK, new { token });
 			}
 			catch (BadRequestException)
 			{
@@ -56,15 +56,15 @@ namespace Forum.Controllers
 			}
 		}
 
-		[HttpPost("refresh-token"), Authorize]
+		[HttpGet("refresh")]
 		public async Task<ActionResult<string>> RefreshToken()
 		{
 			try
 			{
+				var authHeader = Request.Headers["Authorization"].ToString();
 				var refreshToken = Request.Cookies["refreshToken"];
-				var userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-				string token = await _authService.RefreshToken(refreshToken, userId, _configuration.GetSection("AppSettings:Token").Value!, Response);
-				return Ok(token);
+				string token = await _authService.RefreshToken(authHeader, refreshToken, _configuration.GetSection("AppSettings:Token").Value!, Response);
+				return Ok(new { token });
 			}
 			catch (BadRequestException ex)
 			{

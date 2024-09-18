@@ -4,6 +4,7 @@ using Forum.Core.Interfaces.Repositories;
 using Forum.Core.Interfaces.Services;
 using Forum.Models;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace Forum.API.Services
 {
@@ -67,8 +68,24 @@ namespace Forum.API.Services
 			return _tokenService.CreateToken(user, privateKey);
 		}
 
-		public async Task<string> RefreshToken(string refreshToken, int userId, string privateKey, HttpResponse response)
+		public async Task<string> RefreshToken(string authHeader, string refreshToken, string privateKey, HttpResponse response)
 		{
+
+
+			if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+			{
+				throw new BadRequestException("Authorization header does not contain a token or the format is invalid");
+			}
+
+			var expiredJwt = authHeader.Substring("Bearer ".Length).Trim();
+
+			var principal = _tokenService.ValidateExpiredToken(expiredJwt, privateKey);
+			if(principal is null)
+			{
+				throw new BadRequestException("Invalid Jwt.");
+			}
+
+			var userId = Int32.Parse(principal.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
 			User? user = await _userRepository.GetUserById(userId);
 
@@ -79,9 +96,9 @@ namespace Forum.API.Services
 
 			if ((await _userRepository.GetRefreshTokensForUserId(userId)).Any(x => x.Token == refreshToken))
 			{
-				await _userRepository.RemoveRefreshToken(refreshToken!);
-
 				string token = _tokenService.CreateToken(user, privateKey);
+
+				/* await _userRepository.RemoveRefreshToken(refreshToken!);
 				var newRefreshToken = _tokenService.GenerateRefreshToken();
 				_tokenService.SetRefreshToken(newRefreshToken, response);
 
@@ -89,6 +106,7 @@ namespace Forum.API.Services
 				{
 					CreatedAt = newRefreshToken.CreatedAt
 				});
+				*/
 
 				return token;
 			}
