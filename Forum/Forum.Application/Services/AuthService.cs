@@ -35,7 +35,7 @@ namespace Forum.API.Services
 			}
 
 			var newUser = new User(userRegisterBody.Username,
-				userRegisterBody.Email,
+				userRegisterBody.Email.ToLower(),
 				_passwordService.Encrypt(userRegisterBody.Password),
 				"",
 				"We don't know much about them, but we are sure they are cool.",
@@ -112,6 +112,18 @@ namespace Forum.API.Services
 			}
 
 			throw new BadRequestException("Invalid refresh token");
+		}
+
+		public async Task Logout(string? refreshToken, HttpResponse response)
+		{
+			if(refreshToken is null)
+			{
+				throw new BadRequestException("Missing refresh token");
+			}
+
+			_tokenService.SetRefreshToken(new Models.RefreshTokenDto { Token = "", ExpiresAt = DateTime.Now.AddDays(-1) }, response);
+
+			await _userRepository.RemoveRefreshToken(refreshToken);
 		}
 	}
 }

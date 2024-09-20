@@ -75,5 +75,24 @@ namespace Forum.Controllers
 				return StatusCode(StatusCodes.Status500InternalServerError, "Unknown error occured.");
 			}
 		}
+
+		[HttpGet("logout")]
+		public async Task<ActionResult> Logout()
+		{
+			try
+			{
+				var refreshToken = Request.Cookies["refreshToken"];
+				await _authService.Logout(refreshToken, Response);
+				return Ok();
+			}
+			catch (BadRequestException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			catch (Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError, "Unknown error occured.");
+			}
+		}
 	}
 }

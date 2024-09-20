@@ -14,15 +14,18 @@ namespace Forum.Application.Services
 
 		public bool IsCompliantWithValidityCriteria(string password)
 		{
-			char[] specialCh = (@"%!@#$%^&*()?/>.<,:;'\|}]{[_~`+=-" + "\"").ToCharArray();
+			char[] specialCh = ("!@#$%").ToCharArray();
+			char[] allowedChars = ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%").ToCharArray();
 
 			if (password == null
 				|| password.Length < 8
-				|| password.Length > 32
+				|| password.Length > 24
 				|| !password.Any(char.IsUpper)
 				|| !password.Any(char.IsLower)
+				|| !password.Any(char.IsDigit)
 				|| !password.Any(ch => specialCh.Contains(ch))
-				|| password.Contains(" ")) { return false; }
+				|| password.Any(ch => !allowedChars.Contains(ch))
+				|| password.Contains(' ')) { return false; }
 
 			return true;
 		}
