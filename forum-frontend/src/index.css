@@ -15,8 +15,9 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-image: url('./assets/background.jpg');
+    background: #121212; /*url('./assets/background.jpg');*/
 }
+
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
