@@ -1,0 +1,197 @@
+.wrapper-success {
+    width: 420px;
+    background: transparent;
+    backdrop-filter: blur(5px);
+    border: 2px solid rgba(255, 255, 255, .2);
+    color: #fff;
+    border-radius: 10px;
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wrapper-success h1 {
+    margin-bottom: 1rem;
+    font-size: 36px;
+    text-align: center;
+}
+
+.wrapper {
+    width: 420px;
+    background: transparent;
+    backdrop-filter: blur(5px);
+    border: 2px solid rgba(255, 255, 255, .2);
+    color: #fff;
+    border-radius: 10px;
+    padding: 30px 40px;
+}
+
+.wrapper h1 {
+    margin-bottom: 1rem;
+    font-size: 36px;
+    text-align: center;
+}
+
+.wrapper .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder {
+    color: #fff;
+}
+
+.input-box .icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+}
+
+.wrapper button {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 700;
+}
+
+.wrapper button:disabled{
+    background: #757474;
+}
+
+.wrapper .register-link{
+    font-size: 14.5px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.register-link p a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link p a:hover {
+    text-decoration: underline;
+}
+
+button {
+    margin-top: 1rem;
+    padding: 0.5rem;
+}
+
+.instructions {
+    font-size: 0.75rem;
+    border-radius: 1rem;
+    background: #000;
+    color: #fff;
+    padding: 0.75rem;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.instructions > svg {
+    margin-right: 0.25rem;
+}
+
+.hide {
+    display: none;
+}
+
+.valid {
+    color: limegreen;
+    margin-left: 0.25rem;
+}
+
+.invalid {
+    color: red;
+    margin-left: 0.25rem;
+}
+
+.errMsg {
+    background-color: lightpink;
+    color: firebrick;
+    text-align: center;
+    font-weight: bold;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.line {
+    display: inline-block;
+}
+
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+    text-decoration: none;
+  }
+  .btn:hover {
+    color: #212529;
+  }
+
+  .btn-primary {
+    color: #fff;
+    background-color: #6b6f72;
+    border-color: #888a8b;
+  }
+  .btn-primary:hover {
+    color: #fff;
+    background-color: #5c5f5f;
+    border-color: #3a3b3b;
+  }
+  .btn-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+  }
+  .btn-primary:not(:disabled):not(.disabled):active {
+    color: #fff;
+    background-color: #0062cc;
+    border-color: #005cbf;
+  }
+  .btn-primary:not(:disabled):not(.disabled):active:focuss {
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+  }
+
+  [type="button"]:not(:disabled),
+button:not(:disabled) {
+  cursor: pointer;
+}
