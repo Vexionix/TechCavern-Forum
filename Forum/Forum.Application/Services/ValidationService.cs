@@ -18,6 +18,13 @@ namespace Forum.Application.Services
 
 		public async Task CheckRegisterConditions(UserRegister userRegisterBody)
 		{
+			char[] allowedCharsForUsername = ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWQXYZ1234567890_").ToCharArray();
+
+			if (userRegisterBody.Username.Length < 4 || userRegisterBody.Username.Length > 16 || userRegisterBody.Username.Any(ch => !allowedCharsForUsername.Contains(ch)))
+			{
+				throw new BadRequestException("Username does not meet criteria.");
+			}
+
 			if (await _userRepository.UserAlreadyExists(userRegisterBody.Username, userRegisterBody.Email) == true)
 			{
 				throw new BadRequestException("User with the same username or email already exists");
