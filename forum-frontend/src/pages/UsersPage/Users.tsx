@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../utils/api";
+import api from "../../utils/api";
 
 import "./Users.css";
 
@@ -36,21 +36,23 @@ const Users = () => {
   }, []);
 
   return (
-    <article>
-      <h2>Users List</h2>
-      {users?.length ? (
-        <ul>
-          {" "}
-          {users.map((user, i) => (
-            <li key={i}>
-              {user?.username} - {user?.role === 0 ? "Member" : "Admin"}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No users to display</p>
-      )}
-    </article>
+    <div className="users-body">
+      <article>
+        <h2>Users List</h2>
+        {users?.length ? (
+          <ul>
+            {" "}
+            {users.map((user, i) => (
+              <li key={i}>
+                {user?.username} - {user?.role === 0 ? "Member" : "Admin"}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No users to display</p>
+        )}
+      </article>
+    </div>
   );
 };
 

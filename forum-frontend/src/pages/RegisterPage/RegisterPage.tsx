@@ -77,7 +77,7 @@ const RegisterPage = () => {
       return;
     }
     try {
-      const response = await api.post("/auth/register", {
+      await api.post("/auth/register", {
         Username: user,
         Email: email,
         Password: pwd,
@@ -102,7 +102,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <>
+    <div className="register-body">
       {success ? (
         <div className="wrapper-success">
           <h1>Success!</h1>
@@ -269,7 +269,7 @@ const RegisterPage = () => {
           </form>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

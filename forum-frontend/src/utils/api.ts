@@ -23,14 +23,19 @@ api.interceptors.response.use(
     return response;
   },
   async (error) => {
+    if(error.response.status === 403){
+      window.location.href="/forbidden";
+      return Promise.reject(error);
+    }
+
     const originalRequest = error.config;
 
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
-        const response = await axios.post(
-          'https://localhost:7072/api/auth/refresh-token',
+        const response = await api.get(
+          'auth/refresh',
           {}
         );
 

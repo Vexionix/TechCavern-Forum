@@ -1,3 +1,34 @@
+.register-body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #121212; /*url('./assets/background.jpg');*/
+}
+
+.wrapper-success {
+    width: 420px;
+    background: transparent;
+    backdrop-filter: blur(5px);
+    border: 2px solid rgba(255, 255, 255, .2);
+    color: #fff;
+    border-radius: 10px;
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wrapper-success h1 {
+    margin-bottom: 1rem;
+    font-size: 36px;
+    text-align: center;
+}
+
 .wrapper {
     width: 420px;
     background: transparent;
@@ -9,6 +40,7 @@
 }
 
 .wrapper h1 {
+    margin-bottom: 1rem;
     font-size: 36px;
     text-align: center;
 }
@@ -17,7 +49,8 @@
     position: relative;
     width: 100%;
     height: 50px;
-    margin: 30px 0;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .input-box input {
@@ -45,22 +78,6 @@
     font-size: 16px;
 }
 
-.wrapper .forgot-password{
-    display: flex;
-    justify-content: center;
-    font-size: 14.5px;
-    margin: 0 0 15px;
-}
-
-.forgot-password a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.forgot-password a:hover {
-    text-decoration: underline;
-}
-
 .wrapper button {
     width: 100%;
     height: 45px;
@@ -73,7 +90,10 @@
     font-size: 16px;
     color: #333;
     font-weight: 700;
-    margin-top: 0;
+}
+
+.wrapper button:disabled{
+    background: #757474;
 }
 
 .wrapper .register-link{
@@ -92,6 +112,39 @@
     text-decoration: underline;
 }
 
+button {
+    margin-top: 1rem;
+    padding: 0.5rem;
+}
+
+.instructions {
+    font-size: 0.75rem;
+    border-radius: 1rem;
+    background: #000;
+    color: #fff;
+    padding: 0.75rem;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.instructions > svg {
+    margin-right: 0.25rem;
+}
+
+.hide {
+    display: none;
+}
+
+.valid {
+    color: limegreen;
+    margin-left: 0.25rem;
+}
+
+.invalid {
+    color: red;
+    margin-left: 0.25rem;
+}
+
 .errMsg {
     background-color: lightpink;
     color: firebrick;
@@ -99,6 +152,10 @@
     font-weight: bold;
     padding: 0.5rem;
     margin-bottom: 0.5rem;
+}
+
+.line {
+    display: inline-block;
 }
 
 .btn {
