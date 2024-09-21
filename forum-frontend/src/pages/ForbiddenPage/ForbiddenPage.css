@@ -1,4 +1,16 @@
-.not-found-div {
+.forbidden-body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #121212; /*url('./assets/background.jpg');*/
+}
+
+.forbidden-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,13 +22,13 @@ p {
     color: #fff;
 }
 
-p a {
+a {
     color: #fff;
     text-decoration: none;
     font-weight: 600;
 }
 
-p a:hover{
+a:hover{
     text-decoration: underline;
 }
 
@@ -27,7 +39,7 @@ p a:hover{
 .error-code {
     font-size: 75px;
 }
-.not-found-text {
+.forbidden-text {
     font-size: 30px;
     padding-bottom: 20px;
 }

@@ -4,12 +4,12 @@ import { FaUser, FaLock } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import api from "../../utils/api";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 import { useAuth } from "../../contexts/AuthContext";
 
 interface DecodedToken {
-  userId: string;
-  role: string;
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier": string;
+  "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
   exp: number;
 }
 
@@ -41,8 +41,15 @@ const LoginPage: React.FC = () => {
       const accessToken = res?.data?.token;
 
       if (accessToken) {
-        const decoded: DecodedToken = jwtDecode(accessToken);
-        const { userId, role, exp } = decoded;
+        const decodedToken: DecodedToken = jwtDecode<DecodedToken>(accessToken);
+        const userId =
+          decodedToken[
+            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+          ];
+        const role =
+          decodedToken[
+            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+          ];
 
         localStorage.setItem("token", accessToken);
         localStorage.setItem("userId", userId);
@@ -73,7 +80,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="login-body">
       {success ? (
         <div className="wrapper-success">
           <h1>Success!</h1>
@@ -126,7 +133,7 @@ const LoginPage: React.FC = () => {
           </form>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

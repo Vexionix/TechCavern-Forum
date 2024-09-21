@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from "react";
+import api from "../utils/api";
 
 type AuthContextType = {
   token: string | null;
@@ -21,13 +22,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
   const [role, setRole] = useState<string | null>(localStorage.getItem("role"));
 
-  const logout = () => {
+  const logout = async () => {
     setToken(null);
     setUserId(null);
     setRole(null);
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("role");
+
+    try {
+      await api.get("/auth/logout", {});
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

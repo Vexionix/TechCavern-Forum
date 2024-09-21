@@ -1,0 +1,49 @@
+.not-found-body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #121212; /*url('./assets/background.jpg');*/
+}
+
+.not-found-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-20%);
+    flex-direction: column;
+}
+
+p {
+    color: #fff;
+}
+
+p a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+p a:hover{
+    text-decoration: underline;
+}
+
+.error-emoji {
+    font-size: 100px;
+}
+
+.error-code {
+    font-size: 75px;
+}
+.not-found-text {
+    font-size: 30px;
+    padding-bottom: 20px;
+}
+
+.error-info {
+    text-align: center;
+}

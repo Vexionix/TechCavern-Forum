@@ -1,18 +1,25 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./components/HomePage/HomePage.tsx";
-import LoginPage from "./components/LoginPage/LoginPage.tsx";
-import RegisterPage from "./components/RegisterPage/RegisterPage.tsx";
-import Users from "./components/Users.tsx";
-import NotFound from "./components/NotFound/NotFound.tsx";
+import HomePage from "./pages/HomePage/HomePage.tsx";
+import LoginPage from "./pages/LoginPage/LoginPage.tsx";
+import RegisterPage from "./pages/RegisterPage/RegisterPage.tsx";
+import Users from "./pages/UsersPage/Users.tsx";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.tsx";
+import ForbiddenPage from "./pages/ForbiddenPage/ForbiddenPage.tsx";
 
 import "./App.css";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
-import AuthRedirect from "./components/ProtectedRoutes/AuthRedirect.tsx";
+import AuthRedirect from "./pages/ProtectedRoutes/AuthRedirect.tsx";
+import ForbiddenRedirect from "./pages/ProtectedRoutes/ForbiddenRedirect.tsx";
+import NotLoggedInRedirect from "./pages/ProtectedRoutes/NotLoggedInRedirect.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: (
+      <NotLoggedInRedirect>
+        <HomePage />
+      </NotLoggedInRedirect>
+    ),
   },
   {
     path: "/login",
@@ -32,11 +39,29 @@ const router = createBrowserRouter([
   },
   {
     path: "/users",
-    element: <Users />,
+    element: (
+      <NotLoggedInRedirect>
+        <ForbiddenRedirect allowedRoles={["Admin"]}>
+          <Users />
+        </ForbiddenRedirect>
+      </NotLoggedInRedirect>
+    ),
   },
   {
     path: "*",
-    element: <NotFound />,
+    element: (
+      <NotLoggedInRedirect>
+        <NotFoundPage />
+      </NotLoggedInRedirect>
+    ),
+  },
+  {
+    path: "/forbidden",
+    element: (
+      <NotLoggedInRedirect>
+        <ForbiddenPage />
+      </NotLoggedInRedirect>
+    ),
   },
 ]);
 
