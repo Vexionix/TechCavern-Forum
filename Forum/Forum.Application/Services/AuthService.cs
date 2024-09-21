@@ -68,9 +68,12 @@ namespace Forum.API.Services
 			return _tokenService.CreateToken(user, privateKey);
 		}
 
-		public async Task<string> RefreshToken(string authHeader, string refreshToken, string privateKey, HttpResponse response)
+		public async Task<string> RefreshToken(string authHeader, string? refreshToken, string privateKey, HttpResponse response)
 		{
-
+			if(refreshToken is null)
+			{
+				throw new BadRequestException("Refresh token not set or expired.");
+			}
 
 			if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
 			{
