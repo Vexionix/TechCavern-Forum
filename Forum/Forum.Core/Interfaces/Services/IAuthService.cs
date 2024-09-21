@@ -7,7 +7,7 @@ namespace Forum.Core.Interfaces.Services
 	{
 		Task RegisterUser(UserRegister userRegisterBody);
 		Task<string> LoginUser(UserLogin userLoginBody, string privateKey, HttpResponse response);
-		Task<string> RefreshToken(string authHeader, string refreshToken, string privateKey, HttpResponse response);
+		Task<string> RefreshToken(string authHeader, string? refreshToken, string privateKey, HttpResponse response);
 		Task Logout(string? refreshToken, HttpResponse response);
 	}
 }

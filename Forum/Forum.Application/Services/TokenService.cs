@@ -17,7 +17,7 @@ namespace Forum.Application.Services
 			var refreshToken = new RefreshTokenDto
 			{
 				Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-				ExpiresAt = DateTime.Now.AddDays(7)
+				ExpiresAt = DateTime.Now.AddDays(30)
 			};
 
 			return refreshToken;
