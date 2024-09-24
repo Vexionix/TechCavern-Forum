@@ -4,7 +4,7 @@ import { FaUser, FaLock } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import api from "../../utils/api";
 import axios from "axios";
-import { jwtDecode, JwtPayload } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../../contexts/AuthContext";
 
 interface DecodedToken {
