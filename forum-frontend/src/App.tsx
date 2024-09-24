@@ -6,6 +6,9 @@ import Users from "./pages/UsersPage/Users.tsx";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.tsx";
 import ForbiddenPage from "./pages/ForbiddenPage/ForbiddenPage.tsx";
 
+import Header from "./components/Header/Header.tsx";
+import Footer from "./components/Footer/Footer.tsx";
+
 import "./App.css";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
 import AuthRedirect from "./pages/ProtectedRoutes/AuthRedirect.tsx";
@@ -17,7 +20,9 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <NotLoggedInRedirect>
+        <Header />
         <HomePage />
+        <Footer />
       </NotLoggedInRedirect>
     ),
   },
@@ -42,7 +47,9 @@ const router = createBrowserRouter([
     element: (
       <NotLoggedInRedirect>
         <ForbiddenRedirect allowedRoles={["Admin"]}>
+          <Header />
           <Users />
+          <Footer />
         </ForbiddenRedirect>
       </NotLoggedInRedirect>
     ),
