@@ -9,11 +9,27 @@ function HomePage() {
   return (
     <div className="home-body">
       <div className="home-wrapper">
-        <Message message="hello there on the main page" />
-        <Link to="/login">login page</Link>
-        <button className="btn btn-primary" onClick={logout}>
-          Logout
-        </button>
+        <div className="top-container">
+          <div className="top-left-element">
+            <p>a</p>
+          </div>
+          <div className="top-right-element">
+            <p>b</p>
+          </div>
+        </div>
+        <div className="bottom-container">
+          <div className="bottom-left-element">
+            <p>c</p>
+          </div>
+          <div className="bottom-right-container">
+            <div className="bottom-right-first-element">
+              <p>d</p>
+            </div>
+            <div className="bottom-right-second-element">
+              <p>e</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

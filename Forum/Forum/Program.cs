@@ -60,6 +60,7 @@ namespace Forum
 			builder.Services.AddScoped<ITokenService, TokenService>();
 
 			builder.Services.AddScoped<IAuthService, AuthService>();
+			builder.Services.AddScoped<IUsersService, UsersService>();
 			builder.Services.AddScoped<IPostsService, PostsService>();
 			builder.Services.AddScoped<ICommentsService, CommentsService>();
 

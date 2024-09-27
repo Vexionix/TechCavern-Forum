@@ -6,7 +6,9 @@ namespace Forum.Core.Interfaces.Repositories
 	{
 		Task<User?> GetUserById(int id);
 		Task<User?> GetUserByUsername(string username);
+		Task<string> GetUsernameById(int id);
 		Task<IEnumerable<User>> GetAllUsers();
+		Task<int> GetActiveUsersNumber();
 		Task AddUser(User user);
 		Task<bool> UserAlreadyExists(string username, string email);
 		Task<IEnumerable<RefreshToken>> GetRefreshTokensForUserId(int userId);

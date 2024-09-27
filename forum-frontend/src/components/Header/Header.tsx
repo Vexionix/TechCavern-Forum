@@ -35,7 +35,31 @@ const Header = () => {
       }
     };
 
+    const getActiveUsers = async () => {
+      try {
+        const response = await api.get("/users/active", {
+          signal: controller.signal,
+        });
+        setActiveUsers(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    const getUsername = async () => {
+      try {
+        const response = await api.get("/users/" + userId + "/username", {
+          signal: controller.signal,
+        });
+        setUsername(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
     getPostsAddedToday();
+    getActiveUsers();
+    getUsername();
 
     return () => {
       isMounted = false;
@@ -65,6 +89,9 @@ const Header = () => {
         </div>
       </div>
       <div className="header-shortcuts">
+        <p>
+          Hello, <span className="greeting-username">{username}</span>
+        </p>
         <Tooltip title="Profile">
           <Link to={"/profile/" + userId}>
             <HiIdentification />
