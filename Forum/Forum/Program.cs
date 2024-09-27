@@ -61,6 +61,7 @@ namespace Forum
 
 			builder.Services.AddScoped<IAuthService, AuthService>();
 			builder.Services.AddScoped<IPostsService, PostsService>();
+			builder.Services.AddScoped<ICommentsService, CommentsService>();
 
 			var app = builder.Build();
 

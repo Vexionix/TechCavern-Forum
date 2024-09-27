@@ -5,6 +5,7 @@ namespace Forum.Core.Interfaces.Services
 	public interface IPostsService
 	{
 		Task<Post> GetPostById(int postId);
+		Task<List<Post>> GetPostsForSubcategory(int subcategoryId);
 		Task<int> GetPostsAddedToday();
 		Task AddPost(PostCreateDto post);
 		Task EditPost(int postId, PostEditDto post);

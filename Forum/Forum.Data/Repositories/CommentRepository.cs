@@ -14,6 +14,12 @@ namespace Forum.Data.Repositories
 			_forumDbContext = forumDbContext;
 		}
 
+		public async Task<Comment?> GetCommentById(int commentId)
+		{
+			Comment? comment = await _forumDbContext.Comments.FirstOrDefaultAsync(x => x.Id == commentId);
+			return comment;
+		}
+
 		public async Task<IEnumerable<Comment>> GetCommentsForPost(int postId)
 		{
 			return await _forumDbContext.Comments.Where(x => x.PostId == postId)

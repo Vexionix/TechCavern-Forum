@@ -2,7 +2,7 @@
 
 namespace Forum.Models
 {
-	public class PostEditDto
+	public class CommentEditDto
 	{
 		[Required]
 		[MaxLength(500)]

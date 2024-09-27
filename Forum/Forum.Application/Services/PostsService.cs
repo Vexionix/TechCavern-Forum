@@ -26,6 +26,11 @@ namespace Forum.API.Services
 			return post;
 		}
 
+		public async Task<List<Post>> GetPostsForSubcategory(int subcategoryId)
+		{
+			return (await _postRepository.GetPostsForSubcategory(subcategoryId)).ToList();
+		}
+
 		public async Task<int> GetPostsAddedToday()
 		{
 			int postsAddedToday = await _postRepository.GetPostsAddedToday();

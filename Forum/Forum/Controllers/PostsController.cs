@@ -36,6 +36,24 @@ namespace Forum.Controllers
 			}
 		}
 
+		[HttpGet("subcategory/{subcategoryId}"), Authorize] 
+		public async Task<ActionResult<List<Post>>> GetPostsForSubcategory([FromRoute] int subcategoryId)
+		{
+			try
+			{
+				List<Post> posts = await _postsService.GetPostsForSubcategory(subcategoryId);
+				return StatusCode(StatusCodes.Status200OK, posts);
+			}
+			catch (BadRequestException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			catch (Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError, "Unknown error occured.");
+			}
+		}
+
 		[HttpGet("added-today"), Authorize]
 		public async Task<ActionResult<int>> GetPostsAddedToday()
 		{
@@ -55,7 +73,7 @@ namespace Forum.Controllers
 		}
 
 		[HttpPost, Authorize]
-		public async Task<ActionResult<int>> AddPost(PostCreateDto postCreateModel)
+		public async Task<ActionResult> AddPost(PostCreateDto postCreateModel)
 		{
 			try
 			{
@@ -73,7 +91,7 @@ namespace Forum.Controllers
 		}
 
 		[HttpPut("edit/{postId}"), Authorize]
-		public async Task<ActionResult<int>> EditPost([FromRoute] int postId, PostEditDto postEditModel)
+		public async Task<ActionResult> EditPost([FromRoute] int postId, PostEditDto postEditModel)
 		{
 			try
 			{
@@ -91,7 +109,7 @@ namespace Forum.Controllers
 		}
 
 		[HttpDelete("{postId}"), Authorize]
-		public async Task<ActionResult<int>> DeletePost([FromRoute] int postId)
+		public async Task<ActionResult> DeletePost([FromRoute] int postId)
 		{
 			try
 			{
@@ -109,7 +127,7 @@ namespace Forum.Controllers
 		}
 
 		[HttpDelete("remove/{postId}"), Authorize(Roles = "Admin")]
-		public async Task<ActionResult<int>> RemovePostByModeration([FromRoute] int postId)
+		public async Task<ActionResult> RemovePostByModeration([FromRoute] int postId)
 		{
 			try
 			{
@@ -127,7 +145,7 @@ namespace Forum.Controllers
 		}
 
 		[HttpPatch("update-pin/{postId}"), Authorize(Roles = "Admin")]
-		public async Task<ActionResult<int>> UpdatePostPinStatus([FromRoute] int postId)
+		public async Task<ActionResult> UpdatePostPinStatus([FromRoute] int postId)
 		{
 			try
 			{
@@ -145,7 +163,7 @@ namespace Forum.Controllers
 		}
 
 		[HttpPatch("update-lock/{postId}"), Authorize(Roles = "Admin")]
-		public async Task<ActionResult<int>> UpdatePostLockStatus([FromRoute] int postId)
+		public async Task<ActionResult> UpdatePostLockStatus([FromRoute] int postId)
 		{
 			try
 			{
