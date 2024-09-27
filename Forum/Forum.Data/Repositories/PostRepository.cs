@@ -34,6 +34,13 @@ namespace Forum.Data.Repositories
 				.FirstOrDefaultAsync(x => x.Id == id);
 		}
 
+		public async Task<int> GetPostsAddedToday()
+		{
+			DateTime now = DateTime.Now;
+			DateTime yesterday = now.AddDays(-1);
+			return await _forumDbContext.Posts.Where(x => x.CreatedAt > yesterday && x.CreatedAt <= now ).CountAsync();
+		}
+
 		public async Task AddPost(Post post)
 		{
 			await _forumDbContext.Posts.AddAsync(post);
@@ -61,8 +68,9 @@ namespace Forum.Data.Repositories
 			if (postToDelete is not null)
 			{
 				postToDelete.IsDeleted = true;
-				postToDelete.Content = "Post deleted by the user.";
+				postToDelete.Content = "Post has been deleted by the user.";
 				postToDelete.IsEdited = false;
+				postToDelete.IsLocked = true;
 				await _forumDbContext.SaveChangesAsync();
 			}
 		}
@@ -74,8 +82,31 @@ namespace Forum.Data.Repositories
 			if (postToRemove is not null)
 			{
 				postToRemove.IsRemovedByAdmin = true;
-				postToRemove.Content = "Post removed by the moderation team.";
+				postToRemove.Content = "Post has been removed by the moderation team.";
 				postToRemove.IsEdited = false;
+				postToRemove.IsLocked = true;
+				await _forumDbContext.SaveChangesAsync();
+			}
+		}
+
+		public async Task UpdatePinStatus(int postId)
+		{
+			Post? postToEdit = await _forumDbContext.Posts.FirstOrDefaultAsync(x => x.Id == postId);
+
+			if (postToEdit is not null)
+			{
+				postToEdit.IsPinned = !postToEdit.IsPinned;
+				await _forumDbContext.SaveChangesAsync();
+			}
+		}
+
+		public async Task UpdateLockStatus(int postId)
+		{
+			Post? postToEdit = await _forumDbContext.Posts.FirstOrDefaultAsync(x => x.Id == postId);
+
+			if (postToEdit is not null)
+			{
+				postToEdit.IsLocked = !postToEdit.IsPinned;
 				await _forumDbContext.SaveChangesAsync();
 			}
 		}

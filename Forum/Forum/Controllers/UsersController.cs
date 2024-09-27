@@ -13,7 +13,7 @@ namespace Forum.Controllers
 	{
 		private readonly IUserRepository _userRepository;
 
-		public UsersController(IUserRepository userRepository, IPasswordService passwordService)
+		public UsersController(IUserRepository userRepository)
 		{
 			_userRepository = userRepository;
 		}
