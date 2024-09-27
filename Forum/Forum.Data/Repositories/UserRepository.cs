@@ -25,6 +25,14 @@ namespace Forum.Data.Repositories
 			return await _forumDbContext.Users.FirstOrDefaultAsync(x => x.Username == username);
 		}
 
+		public async Task<string> GetUsernameById(int id)
+		{
+			User? user = await _forumDbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+			if (user is not null)
+				return user.Username;
+			else return "-";
+		}
+
 		public async Task<IEnumerable<User>> GetAllUsers()
 		{
 			return await _forumDbContext.Users.Include(x => x.Titles).Select(user =>
@@ -38,6 +46,11 @@ namespace Forum.Data.Repositories
 				)
 				.ToListAsync();
 
+		}
+
+		public async Task<int> GetActiveUsersNumber()
+		{
+			return await _forumDbContext.Users.Where(x => x.IsActive == true).CountAsync();
 		}
 
 		public async Task AddUser(User user)

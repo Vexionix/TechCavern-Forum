@@ -1,4 +1,6 @@
-﻿using Forum.Core.Entities;
+﻿using Forum.API.Services;
+using Forum.Core.Entities;
+using Forum.Core.Exceptions;
 using Forum.Core.Interfaces.Repositories;
 using Forum.Core.Interfaces.Services;
 using Forum.Models;
@@ -12,10 +14,12 @@ namespace Forum.Controllers
 	public class UsersController : ControllerBase
 	{
 		private readonly IUserRepository _userRepository;
+		private readonly IUsersService _usersService;
 
-		public UsersController(IUserRepository userRepository)
+		public UsersController(IUserRepository userRepository, IUsersService usersService)
 		{
 			_userRepository = userRepository;
+			_usersService = usersService;
 		}
 
 		[HttpGet, Authorize(Roles = "Admin")]
@@ -38,6 +42,60 @@ namespace Forum.Controllers
 			}).ToList();
 
 			return Ok(userDtos);
+		}
+
+		[HttpGet("{userId}"), Authorize]
+		public async Task<ActionResult<User>> GetUserById([FromRoute] int userId)
+		{
+			try
+			{
+				User user = await _usersService.GetUserById(userId);
+				return StatusCode(StatusCodes.Status200OK, user);
+			}
+			catch (BadRequestException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			catch (Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError, "Unknown error occured.");
+			}
+		}
+
+		[HttpGet("{userId}/username"), Authorize]
+		public async Task<ActionResult<string>> GetUsernameForUserById([FromRoute] int userId)
+		{
+			try
+			{
+				string username = await _usersService.GetUsernameForUser(userId);
+				return StatusCode(StatusCodes.Status200OK, username);
+			}
+			catch (BadRequestException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			catch (Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError, "Unknown error occured.");
+			}
+		}
+
+		[HttpGet("active"), Authorize]
+		public async Task<ActionResult<int>> GetActiveUsers()
+		{
+			try
+			{
+				int activeUsers = await _usersService.GetActiveUsersNumber();
+				return StatusCode(StatusCodes.Status200OK, activeUsers);
+			}
+			catch (BadRequestException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			catch (Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError, "Unknown error occured.");
+			}
 		}
 	}
 }

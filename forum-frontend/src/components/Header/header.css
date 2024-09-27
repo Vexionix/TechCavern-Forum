@@ -69,6 +69,14 @@
     margin-right: 5px;
 }
 
+.header-shortcuts p {
+    margin-right: 7px;
+}
+
+.greeting-username {
+    color:#e6f1fd;
+}
+
 .header-shortcuts svg{
     margin: 0 5px 0;
     width: 25px;
