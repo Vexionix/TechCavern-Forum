@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import decodeToken from "../../utils/tokenDecoder";
 
 import "./navbar.css";
 import { FaHome } from "react-icons/fa";
@@ -9,7 +10,8 @@ import { FaBook } from "react-icons/fa";
 import { FaCrown } from "react-icons/fa";
 
 const NavBar = () => {
-  const { role } = useAuth();
+  const { token } = useAuth();
+  const [, role] = decodeToken(token!);
   const currentUrl: string = window.location.href.slice(22);
 
   return (

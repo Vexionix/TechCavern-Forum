@@ -1,0 +1,45 @@
+.rules-wrapper {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.rules-container {
+    padding: 25px 2.5%;
+    width: 75%;
+    background-color: #141414;
+    border-radius: 15px;
+}
+
+.title-div {
+    display: flex;
+    justify-content: center;
+}
+.title-div h1 {
+    color: #e6e6e6;
+    font-size: 2.5rem;
+}
+
+.rules-container h2 {
+    color: #e6e6e6;
+    margin-bottom: 20px; 
+    font-size: 2rem;
+}
+
+.rules-container h2:not(:first-child) {
+    margin-top: 20px; 
+}
+
+.rules-container p {
+    color: #cecece;
+    font-size: 1.15rem;
+}
+
+.rules-container ul li {
+    overflow: hidden;
+    list-style: inside;
+    color: #cecece;
+    font-size: 1.15rem;
+}

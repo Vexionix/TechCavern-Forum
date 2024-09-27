@@ -14,6 +14,7 @@ import { AuthProvider } from "./contexts/AuthContext.tsx";
 import AuthRedirect from "./pages/ProtectedRoutes/AuthRedirect.tsx";
 import ForbiddenRedirect from "./pages/ProtectedRoutes/ForbiddenRedirect.tsx";
 import NotLoggedInRedirect from "./pages/ProtectedRoutes/NotLoggedInRedirect.tsx";
+import RulesPage from "./pages/RulesPage/RulesPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,16 @@ const router = createBrowserRouter([
       <NotLoggedInRedirect>
         <Header />
         <HomePage />
+        <Footer />
+      </NotLoggedInRedirect>
+    ),
+  },
+  {
+    path: "/rules",
+    element: (
+      <NotLoggedInRedirect>
+        <Header />
+        <RulesPage />
         <Footer />
       </NotLoggedInRedirect>
     ),

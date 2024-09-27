@@ -7,16 +7,10 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../../contexts/AuthContext";
 
-interface DecodedToken {
-  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier": string;
-  "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
-  exp: number;
-}
-
 const LoginPage: React.FC = () => {
   const userRef = useRef() as MutableRefObject<HTMLInputElement>;
 
-  const { setToken, setUserId, setRole } = useAuth();
+  const { setToken } = useAuth();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -41,23 +35,9 @@ const LoginPage: React.FC = () => {
       const accessToken = res?.data?.token;
 
       if (accessToken) {
-        const decodedToken: DecodedToken = jwtDecode<DecodedToken>(accessToken);
-        const userId =
-          decodedToken[
-            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-          ];
-        const role =
-          decodedToken[
-            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-          ];
-
         localStorage.setItem("token", accessToken);
-        localStorage.setItem("userId", userId);
-        localStorage.setItem("role", role);
 
         setToken(accessToken);
-        setUserId(userId);
-        setRole(role);
       }
 
       setUsername("");
