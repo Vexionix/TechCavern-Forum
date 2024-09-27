@@ -60,6 +60,7 @@ namespace Forum
 			builder.Services.AddScoped<ITokenService, TokenService>();
 
 			builder.Services.AddScoped<IAuthService, AuthService>();
+			builder.Services.AddScoped<IPostsService, PostsService>();
 
 			var app = builder.Build();
 
