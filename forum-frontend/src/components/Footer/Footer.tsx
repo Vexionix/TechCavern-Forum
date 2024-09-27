@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import "./footer.css";
 import { FaLinkedin } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
+import { FaCopyright } from "react-icons/fa";
 
 const Footer = () => {
   return (
     <div className="footer-body">
-      <div className="footer-row">
+      <div className="footer-row-upper">
         <div className="footer-col">
           <h4>About</h4>
           <p className="about-purpose">
@@ -22,13 +23,13 @@ const Footer = () => {
           <h4>Links</h4>
           <ul>
             <li>
-              <a href="#">Rules</a>
+              <Link to="/rules">Rules</Link>
             </li>
             <li>
-              <a href="#">FAQ</a>
+              <Link to="/faq">FAQ</Link>
             </li>
             <li>
-              <a href="#">Contact</a>
+              <Link to="/contact">Contact</Link>
             </li>
           </ul>
         </div>
@@ -42,6 +43,15 @@ const Footer = () => {
               <FaGithub />
             </Link>
           </div>
+        </div>
+      </div>
+      <p className="footer-separator"></p>
+      <div className="footer-row-lower">
+        <div className="copyright-notice">
+          <p className="year-text">
+            <FaCopyright /> {new Date().getFullYear()}
+          </p>
+          <p className="name-text">Perju Mircea-Stefan</p>
         </div>
       </div>
     </div>
