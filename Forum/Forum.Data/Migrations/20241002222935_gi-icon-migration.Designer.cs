@@ -4,6 +4,7 @@ using Forum.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Forum.Data.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    partial class ForumDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241002222935_gi-icon-migration")]
+    partial class giiconmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,7 +45,7 @@ namespace Forum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Forum.Core.Entities.Comment", b =>
@@ -88,7 +91,7 @@ namespace Forum.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Forum.Core.Entities.Post", b =>
@@ -125,12 +128,6 @@ namespace Forum.Data.Migrations
                     b.Property<DateTime>("LastEditedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("LatestCommentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("LatestCommentId")
-                        .HasColumnType("int");
-
                     b.Property<int>("NumberOfLikes")
                         .HasColumnType("int");
 
@@ -154,7 +151,7 @@ namespace Forum.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts", (string)null);
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Forum.Core.Entities.RefreshToken", b =>
@@ -173,7 +170,7 @@ namespace Forum.Data.Migrations
 
                     b.HasKey("UserId", "Token");
 
-                    b.ToTable("RefreshTokens", (string)null);
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("Forum.Core.Entities.Subcategory", b =>
@@ -186,11 +183,6 @@ namespace Forum.Data.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("GiIcon")
                         .IsRequired()
@@ -206,7 +198,7 @@ namespace Forum.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Subcategories", (string)null);
+                    b.ToTable("Subcategories");
                 });
 
             modelBuilder.Entity("Forum.Core.Entities.Title", b =>
@@ -224,7 +216,7 @@ namespace Forum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Titles", (string)null);
+                    b.ToTable("Titles");
 
                     b.HasData(
                         new
@@ -289,7 +281,7 @@ namespace Forum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("TitleUser", b =>
@@ -304,7 +296,7 @@ namespace Forum.Data.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("TitleUser", (string)null);
+                    b.ToTable("TitleUser");
                 });
 
             modelBuilder.Entity("Forum.Core.Entities.Comment", b =>

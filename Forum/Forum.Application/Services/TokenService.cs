@@ -17,7 +17,7 @@ namespace Forum.Application.Services
 			var refreshToken = new RefreshTokenDto
 			{
 				Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-				ExpiresAt = DateTime.Now.AddDays(30)
+				ExpiresAt = DateTime.UtcNow.AddDays(30)
 			};
 
 			return refreshToken;
@@ -68,7 +68,7 @@ namespace Forum.Application.Services
 
 			var token = new JwtSecurityToken(
 				claims: claims,
-				expires: DateTime.Now.AddMinutes(15),
+				expires: DateTime.UtcNow.AddMinutes(15),
 				signingCredentials: creds
 				);
 

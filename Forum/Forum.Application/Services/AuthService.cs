@@ -124,7 +124,7 @@ namespace Forum.API.Services
 				throw new BadRequestException("Missing refresh token");
 			}
 
-			_tokenService.SetRefreshToken(new Models.RefreshTokenDto { Token = "", ExpiresAt = DateTime.Now.AddDays(-1) }, response);
+			_tokenService.SetRefreshToken(new Models.RefreshTokenDto { Token = "", ExpiresAt = DateTime.UtcNow.AddDays(-1) }, response);
 
 			await _userRepository.RemoveRefreshToken(refreshToken);
 		}
