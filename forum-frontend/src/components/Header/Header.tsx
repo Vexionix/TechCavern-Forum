@@ -16,12 +16,10 @@ const Header = () => {
   const { token, logout } = useAuth();
   const [userId] = decodeToken(token!);
 
-  const [username, setUsername] = useState("");
   const [activeUsers, setActiveUsers] = useState(-1);
   const [postsToday, setPostsToday] = useState(-1);
 
   useEffect(() => {
-    let isMounted = true;
     const controller = new AbortController();
 
     const getPostsAddedToday = async () => {
@@ -46,23 +44,10 @@ const Header = () => {
       }
     };
 
-    const getUsername = async () => {
-      try {
-        const response = await api.get("/users/" + userId + "/username", {
-          signal: controller.signal,
-        });
-        setUsername(response.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
     getPostsAddedToday();
     getActiveUsers();
-    getUsername();
 
     return () => {
-      isMounted = false;
       controller.abort;
     };
   }, []);
@@ -89,11 +74,8 @@ const Header = () => {
         </div>
       </div>
       <div className="header-shortcuts">
-        <p>
-          Hello, <span className="greeting-username">{username}</span>
-        </p>
         <Tooltip title="Profile">
-          <Link to={"/profile/" + userId}>
+          <Link to={"/user/profile/" + userId}>
             <HiIdentification />
           </Link>
         </Tooltip>

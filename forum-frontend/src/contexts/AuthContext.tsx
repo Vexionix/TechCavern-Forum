@@ -1,10 +1,18 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import api from "../utils/api";
+import decodeToken from "../utils/tokenDecoder";
 
 type AuthContextType = {
   token: string | null;
   setToken: (token: string | null) => void;
   logout: () => void;
+  updateUserActivity: (isActive: boolean) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -15,6 +23,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const logout = async () => {
+    await updateUserActivity(false);
     setToken(null);
     localStorage.removeItem("token");
 
@@ -25,8 +34,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const updateUserActivity = async (isActive: boolean) => {
+    if (!token) return;
+
+    const [userId] = decodeToken(token);
+    try {
+      await api.patch(`/users/${userId}/activity`, { isActive });
+    } catch (error) {
+      console.error("Error updating user activity:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      updateUserActivity(true);
+    }
+  }, [token]);
+
   return (
-    <AuthContext.Provider value={{ token, setToken, logout }}>
+    <AuthContext.Provider
+      value={{ token, setToken, logout, updateUserActivity }}
+    >
       {children}
     </AuthContext.Provider>
   );

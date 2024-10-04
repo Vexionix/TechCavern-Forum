@@ -19,12 +19,24 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    flex-grow: 1;
+}
+
+.header-active-users,
+.header-posts-today {
+    width: 30%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .header-logo {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
 }
 
 .header-logo svg {
@@ -38,23 +50,10 @@
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     font-size: 22px;
-}
-
-.header-active-users {
-    margin-right: 10%;
-}
-
-.header-active-users .active-users-value {
     text-align: center;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 300;
-    color: #3c94dd
 }
 
-.header-posts-today{
-    margin-left: 10%;
-}
-
+.header-active-users .active-users-value,
 .header-posts-today .posts-today-value {
     text-align: center;
     font-family: 'Poppins', sans-serif;
@@ -69,15 +68,7 @@
     margin-right: 5px;
 }
 
-.header-shortcuts p {
-    margin-right: 7px;
-}
-
-.greeting-username {
-    color:#e6f1fd;
-}
-
-.header-shortcuts svg{
+.header-shortcuts svg {
     margin: 0 5px 0;
     width: 25px;
     height: 25px;
@@ -90,5 +81,18 @@
 }
 
 .logout-icon:hover {
-    cursor:pointer;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .center-container {
+        flex-direction: column; 
+        align-items: center; 
+    }
+
+    .header-active-users,
+    .header-posts-today {
+        width: 50%;
+        margin: 5px 0; 
+    }
 }
