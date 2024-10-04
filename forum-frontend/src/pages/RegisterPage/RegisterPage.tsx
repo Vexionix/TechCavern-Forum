@@ -18,7 +18,7 @@ import api from "../../utils/api";
 import axios from "axios";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9_]{3,23}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%])[\S]{8,24}$/;
 const EMAIL_REGEX =
   /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 
@@ -213,12 +213,14 @@ const RegisterPage = () => {
                 Must include uppercase and lowercase letters, a number and a
                 special character.
                 <br />
-                Allowed special characters
+                Allowed special characters {" "}
                 <span aria-label="exclamation mark">!</span>
                 <span aria-label="at symbol">@</span>
                 <span aria-label="hastag">#</span>
                 <span aria-label="dollar sign">$</span>
                 <span aria-label="percent">%</span>
+                <br />
+                No whitespaces allowed.
               </p>
             )}
             <label htmlFor="confirm_pwd">
