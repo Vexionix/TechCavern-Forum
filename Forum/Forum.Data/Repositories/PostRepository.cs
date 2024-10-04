@@ -24,8 +24,9 @@ namespace Forum.Data.Repositories
 		public async Task<Post?> GetLatestPostForSubcategory(int subcategoryId)
 		{
 			return await _forumDbContext.Posts
-				.OrderByDescending(x => x.CreatedAt)
-				.FirstOrDefaultAsync(x => x.Subcategory.Id == subcategoryId);
+				.OrderByDescending(x => x.LatestCommentDate)
+				.ThenByDescending(x => x.CreatedAt)
+                .FirstOrDefaultAsync(x => x.Subcategory.Id == subcategoryId);
 		}
 
 		public async Task<Post?> GetPostById(int id)
@@ -36,7 +37,7 @@ namespace Forum.Data.Repositories
 
 		public async Task<int> GetPostsAddedToday()
 		{
-			DateTime now = DateTime.Now;
+			DateTime now = DateTime.UtcNow;
 			DateTime yesterday = now.AddDays(-1);
 			return await _forumDbContext.Posts.Where(x => x.CreatedAt > yesterday && x.CreatedAt <= now ).CountAsync();
 		}
@@ -56,7 +57,7 @@ namespace Forum.Data.Repositories
 				postToEdit.Title = editedPost.Title;
 				postToEdit.Content = editedPost.Content;
 				postToEdit.IsEdited = true;
-				postToEdit.LastEditedAt = DateTime.Now;
+				postToEdit.LastEditedAt = DateTime.UtcNow;
 				await _forumDbContext.SaveChangesAsync();
 			}
 		}

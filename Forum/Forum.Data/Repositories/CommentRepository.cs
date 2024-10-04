@@ -16,7 +16,10 @@ namespace Forum.Data.Repositories
 
 		public async Task<Comment?> GetCommentById(int commentId)
 		{
-			Comment? comment = await _forumDbContext.Comments.FirstOrDefaultAsync(x => x.Id == commentId);
+			Comment? comment = await _forumDbContext.Comments
+				.Include(x => x.User)
+				.FirstOrDefaultAsync(x => x.Id == commentId);
+
 			return comment;
 		}
 
@@ -37,7 +40,18 @@ namespace Forum.Data.Repositories
 		public async Task AddComment(Comment comment)
 		{
 			await _forumDbContext.Comments.AddAsync(comment);
-			await _forumDbContext.SaveChangesAsync();
+
+            await _forumDbContext.SaveChangesAsync();
+
+            Post? postToEdit = await _forumDbContext.Posts.FirstOrDefaultAsync(x => x.Id == comment.PostId);
+
+            if (postToEdit is not null)
+            {
+				postToEdit.LatestCommentId = comment.Id;
+				postToEdit.LatestCommentDate = comment.CreatedAt;
+            }
+
+            await _forumDbContext.SaveChangesAsync();
 		}
 
 		public async Task EditComment(Comment editedComment)
@@ -48,7 +62,7 @@ namespace Forum.Data.Repositories
 			{
 				commentToEdit.Content = editedComment.Content;
 				commentToEdit.IsEdited = true;
-				commentToEdit.LastEditedAt = DateTime.Now;
+				commentToEdit.LastEditedAt = DateTime.UtcNow;
 				await _forumDbContext.SaveChangesAsync();
 			}
 		}

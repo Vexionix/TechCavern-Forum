@@ -3,6 +3,7 @@ using Forum.Core.Entities;
 using Forum.Core.Exceptions;
 using Forum.Core.Interfaces.Repositories;
 using Forum.Core.Interfaces.Services;
+using Forum.Core.Models;
 using Forum.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -97,5 +98,23 @@ namespace Forum.Controllers
 				return StatusCode(StatusCodes.Status500InternalServerError, "Unknown error occured.");
 			}
 		}
-	}
+
+        [HttpPatch("{userId}/activity"), Authorize]
+        public async Task<ActionResult> UpdateActiveStatus([FromRoute] int userId, [FromBody] UserStatusDto userStatusModel)
+        {
+            try
+            {
+                await _usersService.UpdateActiveStatus(userId, userStatusModel.IsActive);
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            catch (BadRequestException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Unknown error occured.");
+            }
+        }
+    }
 }
