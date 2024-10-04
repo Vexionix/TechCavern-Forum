@@ -24,9 +24,9 @@ namespace Forum.Core.Entities
 		public string Content { get; set; }
 		public int NumberOfViews { get; set; } = 0;
 		public int NumberOfLikes { get; set; } = 0;
-		public DateTime CreatedAt { get; set; } = DateTime.Now;
+		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 		public bool IsEdited { get; set; } = false;
-		public DateTime LastEditedAt { get; set; } = DateTime.Now;
+		public DateTime LastEditedAt { get; set; } = DateTime.UtcNow;
 		public bool IsPinned { get; set; } = false;
 		public bool IsLocked { get; set; } = false;
 		public bool IsDeleted { get; set; } = false;

@@ -15,7 +15,7 @@ namespace Forum.Core.Entities
 			SelectedTitle = selectedTitle;
 			Bio = bio;
 			Location = location;
-			CreatedAt = DateTime.Now;
+			CreatedAt = DateTime.UtcNow;
 			Role = Role.Member;
 		}
 
@@ -41,7 +41,7 @@ namespace Forum.Core.Entities
 		public string Bio { get; set; }
 		[MaxLength(20)]
 		public string Location { get; set; }
-		public DateTime LastLoggedIn { get; set; } = DateTime.Now;
+		public DateTime LastLoggedIn { get; set; } = DateTime.UtcNow;
 		[Required]
 		public Role Role { get; set; }
 		public DateTime CreatedAt { get; set; }
