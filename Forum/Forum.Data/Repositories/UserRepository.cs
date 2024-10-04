@@ -77,7 +77,18 @@ namespace Forum.Data.Repositories
 			return await _forumDbContext.Users.Where(x => x.Username == username || x.Email == email).AnyAsync();
 		}
 
-		public async Task<IEnumerable<RefreshToken>> GetRefreshTokensForUserId(int userId)
+        public async Task UpdateActiveStatus(int userId, bool status)
+        {
+            User? userToUpdate = await _forumDbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+
+            if (userToUpdate is not null)
+            {
+                userToUpdate.IsActive = status;
+                await _forumDbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task<IEnumerable<RefreshToken>> GetRefreshTokensForUserId(int userId)
 		{
 			return await _forumDbContext.RefreshTokens.Where(x => x.UserId == userId)
 				.Select(y => new RefreshToken(y.UserId, y.Token, y.ExpiresAt) { CreatedAt = y.CreatedAt })
@@ -109,7 +120,7 @@ namespace Forum.Data.Repositories
 
 		public async Task RemoveExpiredRefreshTokens()
 		{
-			await _forumDbContext.RefreshTokens.Where(token => token.ExpiresAt < DateTime.Now).ExecuteDeleteAsync();
+			await _forumDbContext.RefreshTokens.Where(token => token.ExpiresAt < DateTime.UtcNow).ExecuteDeleteAsync();
 
 		}
 

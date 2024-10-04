@@ -7,5 +7,6 @@ namespace Forum.Core.Interfaces.Services
 		Task<User> GetUserById(int userId);
 		Task<string> GetUsernameForUser(int userId);
 		Task<int> GetActiveUsersNumber();
-	}
+        Task UpdateActiveStatus(int userId, bool status);
+    }
 }

@@ -41,7 +41,7 @@ namespace Forum
 				options.AddPolicy("AllowFrontend",
 					policy =>
 					{
-						policy.WithOrigins("https://localhost:5173")
+						policy.WithOrigins("https://localhost:5173", "https://localhost:4173")
 							  .AllowAnyHeader()
 							  .AllowAnyMethod()
 							  .AllowCredentials();
@@ -58,9 +58,11 @@ namespace Forum
 			builder.Services.AddScoped<IPasswordService, PasswordService>();
 			builder.Services.AddScoped<IValidationService, ValidationService>();
 			builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
 
-			builder.Services.AddScoped<IAuthService, AuthService>();
-			builder.Services.AddScoped<IUsersService, UsersService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<ICategoriesService, CategoriesService>();
+            builder.Services.AddScoped<IUsersService, UsersService>();
 			builder.Services.AddScoped<IPostsService, PostsService>();
 			builder.Services.AddScoped<ICommentsService, CommentsService>();
 

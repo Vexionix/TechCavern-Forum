@@ -15,7 +15,9 @@ namespace Forum.Core.Entities
 		public int Id { get; set; }
 		[Required]
 		[MaxLength(50)]
-		public string Name { get; set; }
-		public List<Subcategory> Subcategories { get; set; } = [];
+		public string Name { get; set; } = "";
+        [MaxLength(100)]
+        public string GiIcon { get; set; }
+        public List<Subcategory> Subcategories { get; set; } = [];
 	}
 }

@@ -31,13 +31,15 @@ namespace Forum.Core.Entities
 		public bool IsLocked { get; set; } = false;
 		public bool IsDeleted { get; set; } = false;
 		public bool IsRemovedByAdmin { get; set; } = false;
-		public int UserId { get; set; }
+		public int LatestCommentId { get; set; } = 0;
+        public DateTime? LatestCommentDate { get; set; } = null;
+        public int UserId { get; set; }
 		[ForeignKey("UserId")]
 		public User User {  get; set; }
 		public int SubcategoryId { get; set; }
 
 		[ForeignKey("SubcategoryId")]
 		public Subcategory Subcategory { get; set; }
-		public List<Comment> Comments { get; set; } = [];
+        public List<Comment> Comments { get; set; } = [];
 	}
 }

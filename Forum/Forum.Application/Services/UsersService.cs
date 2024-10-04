@@ -35,5 +35,10 @@ namespace Forum.API.Services
 		{
 			return await _userRepository.GetActiveUsersNumber();
 		}
-	}
+
+		public async Task UpdateActiveStatus(int userId, bool status)
+		{
+			await _userRepository.UpdateActiveStatus(userId, status);
+		}
+    }
 }
