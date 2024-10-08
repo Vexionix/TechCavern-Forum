@@ -11,7 +11,6 @@ import { MdMessage } from "react-icons/md";
 import "./contactpage.css";
 
 const ContactPage = () => {
-
   const { token } = useAuth();
   const [userId] = decodeToken(token!);
   const [subject, setSubject] = useState("");
@@ -35,8 +34,7 @@ const ContactPage = () => {
       });
 
       setSuccess(true);
-    }
-    catch (err) {
+    } catch (err) {
       if (axios.isAxiosError(err)) {
         if (!err?.response) {
           setError("No Server Response");
@@ -96,8 +94,7 @@ const ContactPage = () => {
               <MdLocalPostOffice className="icon" />
             </div>
             <div className="input-box">
-              <input
-                type="text"
+              <textarea
                 autoComplete="off"
                 id="message"
                 placeholder="Message"
@@ -109,7 +106,8 @@ const ContactPage = () => {
             </div>
             <button type="submit">Send</button>
           </form>
-        </div>)}
+        </div>
+      )}
     </div>
   );
 };
