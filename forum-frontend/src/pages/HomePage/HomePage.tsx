@@ -4,6 +4,8 @@ import api from "../../utils/api";
 import { useAuth } from "../../contexts/AuthContext";
 import decodeToken from "../../utils/tokenDecoder";
 import Categories from "../../components/Categories/Categories";
+import Statistics from "../../components/Statistics/Statistics";
+import LatestPosts from "../../components/LatestPosts/LatestPosts";
 
 function HomePage() {
   const { token } = useAuth();
@@ -21,8 +23,8 @@ function HomePage() {
         });
         setUsername(response.data);
       } catch (err: any) {
-        if (err.code !== 'ERR_CANCELED' && err.name !== 'CanceledError') {
-          console.error('Error fetching username:', err);
+        if (err.code !== "ERR_CANCELED" && err.name !== "CanceledError") {
+          console.error("Error fetching username:", err);
         }
       }
     };
@@ -32,7 +34,7 @@ function HomePage() {
     return () => {
       controller.abort();
     };
-  }, [])
+  }, []);
 
   return (
     <div className="home-body">
@@ -50,10 +52,10 @@ function HomePage() {
           </div>
           <div className="bottom-right-container">
             <div className="bottom-right-first-element">
-              <p>d</p>
+              <Statistics />
             </div>
             <div className="bottom-right-second-element">
-              <p>e</p>
+              <LatestPosts />
             </div>
           </div>
         </div>

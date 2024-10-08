@@ -79,11 +79,6 @@ const Header = () => {
             <HiIdentification />
           </Link>
         </Tooltip>
-        <Tooltip title="Settings">
-          <Link to="/settings">
-            <IoMdSettings />
-          </Link>
-        </Tooltip>
         <Tooltip title="Logout">
           <span>
             <HiLogout className="logout-icon" onClick={() => logout()} />
