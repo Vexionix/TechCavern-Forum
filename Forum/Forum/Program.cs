@@ -65,8 +65,9 @@ namespace Forum
             builder.Services.AddScoped<IUsersService, UsersService>();
 			builder.Services.AddScoped<IPostsService, PostsService>();
 			builder.Services.AddScoped<ICommentsService, CommentsService>();
+            builder.Services.AddScoped<IUtilsService, UtilsService>();
 
-			var app = builder.Build();
+            var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())

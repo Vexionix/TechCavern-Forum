@@ -17,6 +17,12 @@ namespace Forum.API.Services
             _commentRepository = commentRepository;
         }
 
+        public async Task<int> GetMaxPagesForSubcategory(int subcategoryId, int pageSize)
+        {
+            int regularPostsCount = await _categoryRepository.GetRegularPostsNumberForSubcategory(subcategoryId);
+            return (int)Math.Ceiling((double)regularPostsCount / pageSize);
+        }
+
         public async Task<List<CategoryGetDto>> GetCategoriesWithSubcategories()
         {
             List<Category> categories = (await _categoryRepository.GetCategoriesWithSubcategories()).ToList();
@@ -63,7 +69,7 @@ namespace Forum.API.Services
             return result;
         }
 
-        private async Task<GetSubcategoryPostDto?> GetPostWithMostRecentActivityForSubcategory(int subcategoryId)
+        private async Task<GetPostDisplayDataDto?> GetPostWithMostRecentActivityForSubcategory(int subcategoryId)
         {
             Post? post = await _categoryRepository.GetSubcategoryPostWithLatestInteraction(subcategoryId);
 
@@ -94,7 +100,7 @@ namespace Forum.API.Services
 
             if (post != null)
             {
-                return new GetSubcategoryPostDto
+                return new GetPostDisplayDataDto
                 {
                     Id = post.Id,
                     LatestActivityPostedAt = latestActivity,

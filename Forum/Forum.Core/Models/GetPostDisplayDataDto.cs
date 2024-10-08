@@ -2,7 +2,7 @@
 
 namespace Forum.Core.Models
 {
-    public class GetSubcategoryPostDto
+    public class GetPostDisplayDataDto
     {
         [Required]
         public int Id { get; set; }

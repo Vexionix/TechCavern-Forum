@@ -10,7 +10,8 @@ namespace Forum.Core.Interfaces.Repositories
 
         Task<IEnumerable<Subcategory>> GetSubcategoriesByCategoryId(int categoryId);
 		Task<int> GetSubcategoryTotalNumberOfComments(int subcategoryId);
-		Task<int> GetSubcategoryTotalNumberOfPosts(int subcategoryId);
+		Task<int> GetRegularPostsNumberForSubcategory(int subcategoryId);
+        Task<int> GetSubcategoryTotalNumberOfPosts(int subcategoryId);
 		Task<Post?> GetSubcategoryPostWithLatestInteraction(int subcategoryId);
 
     }

@@ -20,7 +20,14 @@ namespace Forum.Data.Repositories
 			return await _forumDbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
 		}
 
-		public async Task<User?> GetUserByUsername(string username)
+		public async Task<User?> GetLatestUser()
+		{
+			return await _forumDbContext.Users
+				.OrderByDescending(x => x.CreatedAt)
+				.FirstOrDefaultAsync();
+		}
+
+        public async Task<User?> GetUserByUsername(string username)
 		{
 			return await _forumDbContext.Users.FirstOrDefaultAsync(x => x.Username == username);
 		}
@@ -48,7 +55,12 @@ namespace Forum.Data.Repositories
 
 		}
 
-		public async Task<int> GetActiveUsersNumber()
+        public async Task<int> GetTotalUsersNumber()
+        {
+            return await _forumDbContext.Users.CountAsync();
+        }
+
+        public async Task<int> GetActiveUsersNumber()
 		{
 			return await _forumDbContext.Users.Where(x => x.IsActive == true).CountAsync();
 		}
@@ -84,6 +96,10 @@ namespace Forum.Data.Repositories
             if (userToUpdate is not null)
             {
                 userToUpdate.IsActive = status;
+				if(status == false)
+				{
+					userToUpdate.LastLoggedIn = DateTime.UtcNow;
+				}
                 await _forumDbContext.SaveChangesAsync();
             }
         }
