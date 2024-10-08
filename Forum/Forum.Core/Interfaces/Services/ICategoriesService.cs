@@ -4,6 +4,7 @@ namespace Forum.Core.Interfaces.Services
 {
 	public interface ICategoriesService
 	{
-		Task<List<CategoryGetDto>> GetCategoriesWithSubcategories();
+		Task<int> GetMaxPagesForSubcategory(int subcategoryId, int pageSize);
+        Task<List<CategoryGetDto>> GetCategoriesWithSubcategories();
 	}
 }

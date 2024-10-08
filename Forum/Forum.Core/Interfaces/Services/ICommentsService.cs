@@ -4,7 +4,7 @@ namespace Forum.Core.Interfaces.Services
 {
 	public interface ICommentsService
 	{
-		Task<Comment> GetCommentById(int commentId);
+		Task<CommentGetDto> GetCommentById(int commentId);
 		Task<List<Comment>> GetCommentsForPost(int postId);
 		Task AddComment(CommentCreateDto comment);
 		Task EditComment(int commentId, CommentEditDto comment);

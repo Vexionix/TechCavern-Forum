@@ -23,10 +23,26 @@ namespace Forum.Data.Repositories
 			return comment;
 		}
 
-		public async Task<IEnumerable<Comment>> GetCommentsForPost(int postId)
+        public async Task<int> GetCommentCountForPost(int postId)
 		{
-			return await _forumDbContext.Comments.Where(x => x.PostId == postId)
-				.Select(y => new Comment(y.Content, y.UserId, y.PostId) { Id = y.Id })
+			return await _forumDbContext.Comments
+				.Where(c => c.PostId == postId)
+				.CountAsync();
+		}
+
+        public async Task<int> GetTotalCommentsNumber()
+        {
+            return await _forumDbContext.Comments.CountAsync();
+        }
+
+        public async Task<IEnumerable<Comment>> GetCommentsForPost(int postId, int page = 1, int pageSize = 10)
+		{
+			return await _forumDbContext.Comments
+				.Include(c => c.User)
+				.Where(x => x.PostId == postId)
+				.Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(y => new Comment(y.Content, y.UserId, y.PostId) { Id = y.Id, User = y.User, CreatedAt = y.CreatedAt, IsEdited = y.IsEdited, LastEditedAt = y.LastEditedAt, IsDeleted = y.IsDeleted, IsRemovedByAdmin = y.IsRemovedByAdmin })
 				.ToListAsync();
 		}
 
@@ -73,8 +89,8 @@ namespace Forum.Data.Repositories
 
 			if (commentToDelete is not null)
 			{
-				commentToDelete.IsRemovedByAdmin = true;
-				commentToDelete.Content = "Comment removed by the moderation team.";
+				commentToDelete.IsDeleted = true;
+				commentToDelete.Content = "Comment deleted by the user.";
 				commentToDelete.IsEdited = false;
 				await _forumDbContext.SaveChangesAsync();
 			}

@@ -5,7 +5,9 @@ namespace Forum.Core.Interfaces.Repositories
 	public interface ICommentRepository
 	{
 		Task<Comment?> GetCommentById(int commentId);
-		Task<IEnumerable<Comment>> GetCommentsForPost(int postId);
+        Task<int> GetCommentCountForPost(int postId);
+        Task<int> GetTotalCommentsNumber();
+        Task<IEnumerable<Comment>> GetCommentsForPost(int postId, int page = 1, int pageSize = 10);
 		Task<IEnumerable<Comment>> GetCommentsForUser(int userId);
 		Task AddComment(Comment comment);
 		Task EditComment(Comment comment);

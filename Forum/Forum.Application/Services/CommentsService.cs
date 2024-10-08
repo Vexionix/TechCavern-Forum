@@ -14,16 +14,16 @@ namespace Forum.API.Services
 			_commentRepository = commentRepository;
 		}
 
-		public async Task<Comment> GetCommentById(int commentId)
+		public async Task<CommentGetDto> GetCommentById(int commentId)
 		{
 			Comment? comment = await _commentRepository.GetCommentById(commentId);
 
 			if (comment == null)
 			{
-				throw new BadRequestException("No post with such id exists.");
+				throw new BadRequestException("No comment with such id exists.");
 			}
 
-			return comment;
+			return new CommentGetDto() { UserId = comment.UserId, Content = comment.Content };
 		}
 
 		public async Task<List<Comment>> GetCommentsForPost(int postId)
