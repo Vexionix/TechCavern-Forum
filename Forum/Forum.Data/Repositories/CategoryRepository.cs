@@ -45,6 +45,13 @@ namespace Forum.Data.Repositories
                 .CountAsync();
         }
 
+        public async Task<int> GetRegularPostsNumberForSubcategory(int subcategoryId)
+        {
+            return await _forumDbContext.Posts
+                .Where(x => x.SubcategoryId==subcategoryId && !x.IsPinned)
+                .CountAsync();
+        }
+
         public async Task<int> GetSubcategoryTotalNumberOfPosts(int subcategoryId)
         {
             return await _forumDbContext.Posts
@@ -57,8 +64,7 @@ namespace Forum.Data.Repositories
             var post = await _forumDbContext.Posts
                 .Where(s => s.SubcategoryId == subcategoryId)
                 .Include(p => p.User)
-                .OrderByDescending(p => p.LatestCommentDate)
-                .ThenByDescending(p => p.CreatedAt)
+                .OrderByDescending(p => p.LatestCommentDate ?? p.CreatedAt)
                 .FirstOrDefaultAsync();
 
             return post;

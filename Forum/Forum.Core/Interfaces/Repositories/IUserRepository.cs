@@ -5,11 +5,13 @@ namespace Forum.Core.Interfaces.Repositories
 	public interface IUserRepository
 	{
 		Task<User?> GetUserById(int id);
-		Task<User?> GetUserByUsername(string username);
+        Task<User?> GetLatestUser();
+        Task<User?> GetUserByUsername(string username);
 		Task<string> GetUsernameById(int id);
 		Task<IEnumerable<User>> GetAllUsers();
-		Task<int> GetActiveUsersNumber();
-		Task AddUser(User user);
+        Task<int> GetTotalUsersNumber();
+        Task<int> GetActiveUsersNumber();
+        Task AddUser(User user);
 		Task<bool> UserAlreadyExists(string username, string email);
         Task UpdateActiveStatus(int userId, bool status);
         Task<IEnumerable<RefreshToken>> GetRefreshTokensForUserId(int userId);

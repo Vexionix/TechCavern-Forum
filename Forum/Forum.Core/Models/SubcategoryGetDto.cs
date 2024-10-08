@@ -18,6 +18,6 @@ namespace Forum.Core.Models
         [Required]
         public int NumberOfComments { get; set; }
         [Required]
-        public GetSubcategoryPostDto? PostWithMostRecentActivity { get; set; }
+        public GetPostDisplayDataDto? PostWithMostRecentActivity { get; set; }
     }
 }

@@ -1,10 +1,7 @@
 ﻿using Forum.Core.Interfaces.Services;
 using Forum.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
 using Forum.Core.Exceptions;
-using Newtonsoft.Json;
 
 namespace Forum.Controllers
 {
@@ -14,11 +11,13 @@ namespace Forum.Controllers
 	{
 		private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
+		private readonly IUtilsService _utilsService;
 
-        public UtilsController(IEmailService emailService, IConfiguration configuration)
+        public UtilsController(IEmailService emailService, IConfiguration configuration, IUtilsService utilsService)
 		{
             _emailService = emailService;
 			_configuration = configuration;
+			_utilsService = utilsService;
         }
 
 		[HttpPost("contact")]
@@ -38,5 +37,23 @@ namespace Forum.Controllers
 				return StatusCode(StatusCodes.Status500InternalServerError, "Unknown error occured.");
 			}
 		}
-	}
+
+        [HttpGet("statistics")]
+        public async Task<ActionResult<StatisticsDto>> GetStatistics()
+        {
+            try
+            {
+                var statistics = await _utilsService.GetStatistics();
+                return StatusCode(StatusCodes.Status200OK, statistics);
+            }
+            catch (BadRequestException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Unknown error occured.");
+            }
+        }
+    }
 }

@@ -19,11 +19,11 @@ namespace Forum.Controllers
 		}
 
 		[HttpGet("{id}"), Authorize]
-		public async Task<ActionResult<Comment>> GetCommentById([FromRoute] int id)
+		public async Task<ActionResult<CommentGetDto>> GetCommentById([FromRoute] int id)
 		{
 			try
 			{
-				Comment comment = await _commentsService.GetCommentById(id);
+                CommentGetDto comment = await _commentsService.GetCommentById(id);
 				return StatusCode(StatusCodes.Status200OK, comment);
 			}
 			catch (BadRequestException ex)
