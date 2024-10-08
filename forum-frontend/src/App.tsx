@@ -18,6 +18,11 @@ import ForbiddenRedirect from "./pages/ProtectedRoutes/ForbiddenRedirect.tsx";
 import NotLoggedInRedirect from "./pages/ProtectedRoutes/NotLoggedInRedirect.tsx";
 import ContactPage from "./pages/ContactPage/ContactPage.tsx";
 import { useEffect, useState } from "react";
+import SubcategoryPostsPage from "./pages/SubcategoryPostsPage/SubcategoryPostsPage.tsx";
+import AddPostPage from "./pages/AddPostPage/AddPostPage.tsx";
+import PostPage from "./pages/PostPage/PostPage.tsx";
+import EditCommentPage from "./pages/EditCommentPage/EditCommentPage.tsx";
+import EditPostPage from "./pages/EditPostPage/EditPostPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +61,56 @@ const router = createBrowserRouter([
       <NotLoggedInRedirect>
         <Header />
         <ContactPage />
+        <Footer />
+      </NotLoggedInRedirect>
+    ),
+  },
+  {
+    path: "/subcategory/:id",
+    element: (
+      <NotLoggedInRedirect>
+        <Header />
+        <SubcategoryPostsPage />
+        <Footer />
+      </NotLoggedInRedirect>
+    ),
+  },
+  {
+    path: "/add-post/:subcategoryId",
+    element: (
+      <NotLoggedInRedirect>
+        <Header />
+        <AddPostPage />
+        <Footer />
+      </NotLoggedInRedirect>
+    ),
+  },
+  {
+    path: "/edit-comment/:commentId",
+    element: (
+      <NotLoggedInRedirect>
+        <Header />
+        <EditCommentPage />
+        <Footer />
+      </NotLoggedInRedirect>
+    ),
+  },
+  {
+    path: "/edit-post/:postId",
+    element: (
+      <NotLoggedInRedirect>
+        <Header />
+        <EditPostPage />
+        <Footer />
+      </NotLoggedInRedirect>
+    ),
+  },
+  {
+    path: "/post/:postId",
+    element: (
+      <NotLoggedInRedirect>
+        <Header />
+        <PostPage />
         <Footer />
       </NotLoggedInRedirect>
     ),

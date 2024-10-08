@@ -30,6 +30,10 @@ function timeAgo(dateString: string): string {
     unit += "s";
   }
 
+  if (interval === 0) {
+    return "Just now";
+  }
+
   return `${interval} ${unit} ago`;
 }
 
