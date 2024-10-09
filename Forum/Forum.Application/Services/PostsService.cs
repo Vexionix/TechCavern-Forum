@@ -9,10 +9,12 @@ namespace Forum.API.Services
 {
     public class PostsService : IPostsService
     {
+        private readonly IUserRepository _userRepository;
         private readonly IPostRepository _postRepository;
         private readonly ICommentRepository _commentRepository;
-        public PostsService(IPostRepository postRepository, ICommentRepository commentRepository)
+        public PostsService(IUserRepository userRepository, IPostRepository postRepository, ICommentRepository commentRepository)
         {
+            _userRepository = userRepository;
             _postRepository = postRepository;
             _commentRepository = commentRepository;
         }
@@ -159,6 +161,24 @@ namespace Forum.API.Services
             return result;
         }
 
+        public async Task<List<GetPostProfile>> GetLatestPostsForUser(int userId)
+        {
+            List<Post> posts = (await _postRepository.GetLatestPostsForUser(userId)).ToList();
+            List<GetPostProfile> result = new List<GetPostProfile>();
+
+            foreach (Post post in posts)
+            {
+                result.Add(new GetPostProfile
+                {
+                    Id = post.Id,
+                    CreatedAt = post.CreatedAt,
+                    Title = post.Title
+                });
+            }
+
+            return result;
+        }
+
         public async Task<int> GetPostsAddedToday()
         {
             int postsAddedToday = await _postRepository.GetPostsAddedTodayNumber();
@@ -170,6 +190,19 @@ namespace Forum.API.Services
             if (postCreateModel.Title == null || postCreateModel.Content == null || postCreateModel.SubcategoryId == 0 || postCreateModel.UserId == 0)
                 throw new BadRequestException("Invalid form data");
             await _postRepository.AddPost(new Post(postCreateModel.Title, postCreateModel.Content, postCreateModel.UserId, postCreateModel.SubcategoryId));
+
+            int postCountForUser = await _postRepository.GetPostCountForUser(postCreateModel.UserId);
+            if(postCountForUser >= 10)
+            {
+                await _userRepository.UnlockTitleForUser(postCreateModel.UserId, (await _userRepository.GetTitleByName("Active poster"))!.Id);
+            } else if (postCountForUser >= 25)
+            {
+                await _userRepository.UnlockTitleForUser(postCreateModel.UserId, (await _userRepository.GetTitleByName("Outstanding"))!.Id);
+            }
+            else if (postCountForUser >= 50)
+            {
+                await _userRepository.UnlockTitleForUser(postCreateModel.UserId, (await _userRepository.GetTitleByName("All-Knowing"))!.Id);
+            }
         }
 
         public async Task EditPost(int postId, PostEditDto postEditModel)

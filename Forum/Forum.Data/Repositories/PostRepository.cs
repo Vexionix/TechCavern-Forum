@@ -42,6 +42,17 @@ namespace Forum.Data.Repositories
                 .Select(y => new Post(y.Title, y.Content, y.UserId, y.SubcategoryId) { Id = y.Id, CreatedAt = y.CreatedAt, LatestCommentDate = y.LatestCommentDate, LatestCommentId = y.LatestCommentId, User = y.User, IsDeleted = y.IsDeleted, IsRemovedByAdmin = y.IsRemovedByAdmin })
                 .ToListAsync();
         }
+        public async Task<IEnumerable<Post>> GetLatestPostsForUser(int userId)
+        {
+            return await _forumDbContext.Posts
+                .Where(p => p.UserId == userId)
+                .Include(p => p.User)
+                .OrderByDescending(x => x.CreatedAt)
+                .Take(5)
+                .Select(y => new Post(y.Title, y.Content, y.UserId, y.SubcategoryId) { Id = y.Id, CreatedAt = y.CreatedAt, LatestCommentDate = y.LatestCommentDate, LatestCommentId = y.LatestCommentId, User = y.User, IsDeleted = y.IsDeleted, IsRemovedByAdmin = y.IsRemovedByAdmin })
+                .ToListAsync();
+        }
+
 
         public async Task<Post?> GetLatestPostForSubcategory(int subcategoryId)
 		{
@@ -64,7 +75,13 @@ namespace Forum.Data.Repositories
 			return await _forumDbContext.Comments
 				.Where(c => c.PostId == postId)
 				.CountAsync();
-		}
+        }
+        public async Task<int> GetPostCountForUser(int userId)
+        {
+            return await _forumDbContext.Posts
+                .Where(p => p.UserId == userId)
+                .CountAsync();
+        }
 
         public async Task<int> GetTotalPostsNumber()
         {

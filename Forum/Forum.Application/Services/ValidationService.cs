@@ -47,11 +47,6 @@ namespace Forum.Application.Services
 			{
 				throw new BadRequestException("Wrong password.");
 			}
-
-			if (user.IsBanned)
-			{
-				throw new BadRequestException("You are trying to login to a banned account.");
-			}
 		}
 	}
 }

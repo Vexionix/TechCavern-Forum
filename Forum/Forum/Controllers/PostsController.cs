@@ -115,6 +115,24 @@ namespace Forum.Controllers
             }
         }
 
+        [HttpGet("latest/{userId}"), Authorize]
+        public async Task<ActionResult<List<GetPostProfile>>> GetLatestPostsForUser([FromRoute] int userId)
+        {
+            try
+            {
+                List<GetPostProfile> posts = await _postsService.GetLatestPostsForUser(userId);
+                return StatusCode(StatusCodes.Status200OK, posts);
+            }
+            catch (BadRequestException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Unknown error occured.");
+            }
+        }
+
         [HttpGet("added-today"), Authorize]
 		public async Task<ActionResult<int>> GetPostsAddedToday()
 		{

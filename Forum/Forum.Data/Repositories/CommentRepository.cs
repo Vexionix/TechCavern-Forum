@@ -23,12 +23,31 @@ namespace Forum.Data.Repositories
 			return comment;
 		}
 
+        public async Task<IEnumerable<Comment>> GetLatestCommentsForUser(int userId)
+        {
+            return await _forumDbContext.Comments
+                .Where(c => c.UserId == userId)
+                .Include(c => c.User)
+				.Include(c => c.Post)
+                .OrderByDescending(c => c.CreatedAt)
+                .Take(5)
+                .Select(y => new Comment(y.Content, y.UserId, y.PostId) { Id = y.Id, CreatedAt = y.CreatedAt, Post = y.Post })
+                .ToListAsync();
+        }
+
         public async Task<int> GetCommentCountForPost(int postId)
 		{
 			return await _forumDbContext.Comments
 				.Where(c => c.PostId == postId)
 				.CountAsync();
 		}
+
+        public async Task<int> GetCommentCountForUser(int userId)
+        {
+            return await _forumDbContext.Comments
+                .Where(c => c.UserId == userId)
+                .CountAsync();
+        }
 
         public async Task<int> GetTotalCommentsNumber()
         {

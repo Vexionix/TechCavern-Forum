@@ -49,8 +49,12 @@ namespace Forum.Controllers
 			catch (BadRequestException)
 			{
 				return BadRequest("Invalid username or password");
-			}
-			catch (Exception)
+            }
+            catch (BannedUserException)
+            {
+                return BadRequest("The account you attempt to log into is banned!");
+            }
+            catch (Exception)
 			{
 				return StatusCode(StatusCodes.Status500InternalServerError, "Unknown error occured.");
 			}

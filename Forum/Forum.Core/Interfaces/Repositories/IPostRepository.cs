@@ -8,8 +8,10 @@ namespace Forum.Core.Interfaces.Repositories
 
         Task<IEnumerable<Post>> GetLatestPosts();
         Task<Post?> GetPostById(int id);
-		Task<Post?> GetLatestPostForSubcategory(int subcategoryId);
+        Task<IEnumerable<Post>> GetLatestPostsForUser(int userId);
+        Task<Post?> GetLatestPostForSubcategory(int subcategoryId);
         Task<int> GetCommentCount(int postId);
+        Task<int> GetPostCountForUser(int userId);
         Task<int> GetTotalPostsNumber();
         Task<int> GetPostsAddedTodayNumber();
         Task IncrementPostViews(int id);
