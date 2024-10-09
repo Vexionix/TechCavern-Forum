@@ -85,8 +85,8 @@
   cursor: pointer;
   font-size: 16px;
   color: #333;
-  font-weight: 700;
-  margin-top: 0;
+  font-weight: 700; 
+  margin-top: 10px;
 }
 
 .wrapper .register-link {

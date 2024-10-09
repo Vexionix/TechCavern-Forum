@@ -19,7 +19,7 @@ const LatestPosts = () => {
   useEffect(() => {
     const controller = new AbortController();
 
-    const getStatistics = async () => {
+    const getLatestPosts = async () => {
       try {
         const response = await api.get("/posts/latest", {
           signal: controller.signal,
@@ -32,7 +32,7 @@ const LatestPosts = () => {
       }
     };
 
-    getStatistics();
+    getLatestPosts();
 
     return () => {
       controller.abort();
