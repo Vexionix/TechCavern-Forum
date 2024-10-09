@@ -8,7 +8,8 @@ namespace Forum.Core.Interfaces.Services
 		Task<GetPostPageData> GetPostById(int postId, int page = 1, int pageSize = 10);
 		Task<(List<PostListElementDto> pinnedPosts, List<PostListElementDto> regularPosts)> GetPostsForSubcategory(int subcategoryId, int page = 1, int pageSize = 10);
         Task<List<GetPostDisplayDataDto>> GetLatestPosts();
-		Task<int> GetMaxPagesForPost(int postId, int pageSize);
+		Task<List<GetPostProfile>> GetLatestPostsForUser(int userId);
+        Task<int> GetMaxPagesForPost(int postId, int pageSize);
 		Task IncrementPostViews(int postId);
         Task<int> GetPostsAddedToday();
 		Task AddPost(PostCreateDto post);

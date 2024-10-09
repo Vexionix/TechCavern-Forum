@@ -1,17 +1,16 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
-import decodeToken from "../../utils/tokenDecoder";
+//import { useAuth } from "../../contexts/AuthContext";
+//import decodeToken from "../../utils/tokenDecoder";
 
 import "./navbar.css";
 import { FaHome } from "react-icons/fa";
-import { FaPerson } from "react-icons/fa6";
 import { FaQuestion } from "react-icons/fa";
 import { FaBook } from "react-icons/fa";
 import { FaCrown } from "react-icons/fa";
 
 const NavBar = () => {
-  const { token } = useAuth();
-  const [, role] = decodeToken(token!);
+  //const { token } = useAuth();
+  //const [, role] = decodeToken(token!);
   const currentUrl: string = window.location.href.slice(22);
 
   return (
@@ -47,17 +46,6 @@ const NavBar = () => {
             <FaCrown /> Staff
           </Link>
         </li>
-        {role === "Admin" && (
-          <li
-            className={
-              currentUrl === "/users" ? "navbar-li selected" : "navbar-li"
-            }
-          >
-            <Link to="/users">
-              <FaPerson /> Users
-            </Link>
-          </li>
-        )}
       </ul>
     </div>
   );

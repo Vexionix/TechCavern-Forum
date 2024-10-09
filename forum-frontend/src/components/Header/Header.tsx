@@ -8,7 +8,6 @@ import Tooltip from "@mui/material/Tooltip";
 import { FaComputer } from "react-icons/fa6";
 import { HiIdentification } from "react-icons/hi";
 import { HiLogout } from "react-icons/hi";
-import { IoMdSettings } from "react-icons/io";
 import decodeToken from "../../utils/tokenDecoder";
 import { useAuth } from "../../contexts/AuthContext";
 

@@ -2,7 +2,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage/HomePage.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import RegisterPage from "./pages/RegisterPage/RegisterPage.tsx";
-import Users from "./pages/UsersPage/Users.tsx";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.tsx";
 import ForbiddenPage from "./pages/ForbiddenPage/ForbiddenPage.tsx";
 import RulesPage from "./pages/RulesPage/RulesPage.tsx";
@@ -23,6 +22,10 @@ import AddPostPage from "./pages/AddPostPage/AddPostPage.tsx";
 import PostPage from "./pages/PostPage/PostPage.tsx";
 import EditCommentPage from "./pages/EditCommentPage/EditCommentPage.tsx";
 import EditPostPage from "./pages/EditPostPage/EditPostPage.tsx";
+import ScrollToTop from "./utils/ScrollToTop.tsx";
+import StaffPage from "./pages/StaffPage/StaffPage.tsx";
+import UserProfilePage from "./pages/UserProfilePage/UserProfilePage.tsx";
+import EditProfilePage from "./pages/EditProfilePage/EditProfilePage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -66,9 +69,20 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "/staff",
+    element: (
+      <NotLoggedInRedirect>
+        <Header />
+        <StaffPage />
+        <Footer />
+      </NotLoggedInRedirect>
+    ),
+  },
+  {
     path: "/subcategory/:id",
     element: (
       <NotLoggedInRedirect>
+        <ScrollToTop />
         <Header />
         <SubcategoryPostsPage />
         <Footer />
@@ -79,9 +93,15 @@ const router = createBrowserRouter([
     path: "/add-post/:subcategoryId",
     element: (
       <NotLoggedInRedirect>
-        <Header />
         <AddPostPage />
-        <Footer />
+      </NotLoggedInRedirect>
+    ),
+  },
+  {
+    path: "/edit-profile/:userId",
+    element: (
+      <NotLoggedInRedirect>
+        <EditProfilePage />
       </NotLoggedInRedirect>
     ),
   },
@@ -89,9 +109,7 @@ const router = createBrowserRouter([
     path: "/edit-comment/:commentId",
     element: (
       <NotLoggedInRedirect>
-        <Header />
         <EditCommentPage />
-        <Footer />
       </NotLoggedInRedirect>
     ),
   },
@@ -99,9 +117,7 @@ const router = createBrowserRouter([
     path: "/edit-post/:postId",
     element: (
       <NotLoggedInRedirect>
-        <Header />
         <EditPostPage />
-        <Footer />
       </NotLoggedInRedirect>
     ),
   },
@@ -109,8 +125,20 @@ const router = createBrowserRouter([
     path: "/post/:postId",
     element: (
       <NotLoggedInRedirect>
+        <ScrollToTop />
         <Header />
         <PostPage />
+        <Footer />
+      </NotLoggedInRedirect>
+    ),
+  },
+  {
+    path: "/user/profile/:userId",
+    element: (
+      <NotLoggedInRedirect>
+        <ScrollToTop />
+        <Header />
+        <UserProfilePage />
         <Footer />
       </NotLoggedInRedirect>
     ),
@@ -129,18 +157,6 @@ const router = createBrowserRouter([
       <AuthRedirect>
         <RegisterPage />
       </AuthRedirect>
-    ),
-  },
-  {
-    path: "/users",
-    element: (
-      <NotLoggedInRedirect>
-        <ForbiddenRedirect allowedRoles={["Admin"]}>
-          <Header />
-          <Users />
-          <Footer />
-        </ForbiddenRedirect>
-      </NotLoggedInRedirect>
     ),
   },
   {

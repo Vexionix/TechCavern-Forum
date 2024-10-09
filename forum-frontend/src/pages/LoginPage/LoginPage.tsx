@@ -47,9 +47,7 @@ const LoginPage: React.FC = () => {
         if (!err?.response) {
           setError("No Server Response");
         } else if (err.response?.status === 400) {
-          setError(
-            "Incorrect username or password. Check your input and try again."
-          );
+          setError(err.response?.data);
         } else {
           setError("Login Failed");
         }
@@ -100,9 +98,9 @@ const LoginPage: React.FC = () => {
               />
               <FaLock className="icon" />
             </div>
-            <div className="forgot-password">
+            {/*<div className="forgot-password">
               <Link to="/recovery">Forgot password?</Link>
-            </div>
+            </div>*/}
             <button type="submit">Login</button>
             <div className="register-link">
               <p>

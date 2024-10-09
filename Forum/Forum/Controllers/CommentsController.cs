@@ -36,7 +36,25 @@ namespace Forum.Controllers
 			}
 		}
 
-		[HttpGet("post/{postId}"), Authorize]
+        [HttpGet("latest/{userId}"), Authorize]
+        public async Task<ActionResult<List<GetCommentProfile>>> GetLatestCommentsForUser([FromRoute] int userId)
+        {
+            try
+            {
+                List<GetCommentProfile> comments = (await _commentsService.GetLatestCommentsForUser(userId)).ToList();
+                return StatusCode(StatusCodes.Status200OK, comments);
+            }
+            catch (BadRequestException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Unknown error occured.");
+            }
+        }
+
+        [HttpGet("post/{postId}"), Authorize]
 		public async Task<ActionResult<List<Comment>>> GetCommentsForPosts([FromRoute] int postId)
 		{
 			try
