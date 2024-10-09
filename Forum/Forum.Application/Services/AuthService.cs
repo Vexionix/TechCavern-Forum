@@ -55,9 +55,14 @@ namespace Forum.API.Services
 			catch (BadRequestException ex)
 			{
 				throw new BadRequestException(ex.Message);
-			}
+            }
 
-			var refreshToken = _tokenService.GenerateRefreshToken();
+            if (user.IsBanned)
+            {
+                throw new BannedUserException("Login failed! User is banned.");
+            }
+
+            var refreshToken = _tokenService.GenerateRefreshToken();
 			_tokenService.SetRefreshToken(refreshToken, response);
 
 			await _userRepository.AddRefreshToken(new RefreshToken(user.Id, refreshToken.Token, refreshToken.ExpiresAt)
