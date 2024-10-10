@@ -1,49 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 .rules-wrapper {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    display: flex;
-    justify-content: center;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
 .rules-container {
-    padding: 25px 2.5%;
-    width: 75%;
-    background-color: #1b1b1b;
-    border-radius: 15px;
+  padding: 25px 2.5%;
+  width: 75%;
+  background-color: #1b1b1b;
+  border-radius: 15px;
 }
 
 .title-div {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .title-div h1 {
-    color: #e6e6e6;
-    font-size: 2.25rem;
+  color: #e6e6e6;
+  font-size: 2.25rem;
 }
 
 .rules-container h2 {
-    color: #e6e6e6;
-    margin-bottom: 20px;
-    font-size: 1.75rem;
+  color: #e6e6e6;
+  margin-bottom: 20px;
+  font-size: 1.75rem;
 }
 
 .rules-container h2:not(:first-child) {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .rules-container p {
-    color: #cecece;
-    font-size: 1rem;
+  color: #cecece;
+  font-size: 1rem;
 }
 
 .rules-container ul li {
-    overflow: hidden;
-    list-style: inside;
-    color: #cecece;
-    font-size: 1rem;
+  overflow: hidden;
+  list-style: inside;
+  color: #cecece;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .rules-container {
+    width: 95%;
+    padding: 20px;
+  }
 }

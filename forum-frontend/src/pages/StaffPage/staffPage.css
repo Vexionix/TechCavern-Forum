@@ -1,58 +1,64 @@
 .staff-wrapper {
-    margin: 50px auto;
-    max-width: 1200px;
-    padding: 0 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Poppins', sans-serif;
+  margin: 50px auto;
+  max-width: 1200px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
 }
 
 .staff-container {
-    width: 50%;
-    background-color: #303030;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 10px 0;
-    color: #fff;
-    text-align: center;
+  width: 50%;
+  background-color: #303030;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px 0;
+  color: #fff;
+  text-align: center;
 }
 
-.staff-container .staff-member a{
-    font-size: 17px;
-    font-weight: 600;
-    color: #3aaddb;    
-    display: inline; 
-    padding-top: 0; 
-    margin: 0; 
-    text-decoration: none;
-    transition: all 0.3s ease 0s;
+.staff-container .staff-member a {
+  font-size: 17px;
+  font-weight: 600;
+  color: #3aaddb;
+  display: inline;
+  padding-top: 0;
+  margin: 0;
+  text-decoration: none;
+  transition: all 0.3s ease 0s;
 }
 
 .staff-container .staff-member a:hover {
-    text-decoration: none;
-    color: rgb(84, 178, 255);
+  text-decoration: none;
+  color: rgb(84, 178, 255);
 }
 
 .staff-container .staff-member {
-    font-size: 18px;
-    font-weight: 500;
-    padding: 10px 0;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 10px 0;
 }
 
-  .status-indicator {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%; 
-    margin-left: 10px; 
+.status-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.active {
+  background-color: #28a745;
+}
+
+.inactive {
+  background-color: #dc3545;
+}
+
+@media (max-width: 768px) {
+  .staff-container {
+    width: 80%;
   }
-  
-  .active {
-    background-color: #28a745;
-  }
-  
-  .inactive {
-    background-color: #dc3545; 
-  }
+}
