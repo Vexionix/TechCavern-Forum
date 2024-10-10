@@ -102,6 +102,10 @@ On the website a lot of statistics are provided regarded the post, users, commen
 
 The UI is made with the intention of being intuitive and pleasant to the eye. I combined a dark theme with blue sections in order to give it some color to make it stand out. I feel like I've achieved the minimalist design I was aiming for.
 
+## 💻🖥️📱 Responsive web design
+
+No matter what device the user has, the design is made to be adaptive through media querries, which leds to a good experience on mobile, tablets and desktop devices.
+
 # Roadmap for the future
 
 - Refactoring
@@ -115,6 +119,8 @@ The UI is made with the intention of being intuitive and pleasant to the eye. I 
 - Add direct messaging features
 
 - Add settings to change the theme and other attributes (maybe to not allow DMs etc.)
+
+- Properly test the integrations before release
 
 # 🏁 Final Thoughts
 
