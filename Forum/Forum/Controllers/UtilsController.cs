@@ -32,8 +32,9 @@ namespace Forum.Controllers
 			{
 				return BadRequest(ex.Message);
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
+				Console.WriteLine(ex.Message);
 				return StatusCode(StatusCodes.Status500InternalServerError, "Unknown error occured.");
 			}
 		}
